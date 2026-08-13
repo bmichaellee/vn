@@ -1,0 +1,16 @@
+# Installed libraries
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Directories with ignored contents
+.wiki/*
+.temp/*
+.secrets/*
+.docs/*
+.coverage/*
+
+# Environment files
+.env

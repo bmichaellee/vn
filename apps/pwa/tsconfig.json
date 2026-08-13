@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
+    "paths": {
+      "@App": ["./src/App/App.tsx"],
+      "@Components/*": ["./src/Components/*"],
+      "@Services": ["./src/Services"],
+      "@API": ["./src/API"]
+    }
+  }
+}

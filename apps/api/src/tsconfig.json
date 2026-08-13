@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@Root/*": ["./../../../*"],
+      "@Services": ["./v0/Services"],
+      "@Routes": ["./v0/Routes"],
+      "@Database": ["./v0/Database"],
+      "@Schema": ["./v0/Schema"]
+    }
+  }
+}

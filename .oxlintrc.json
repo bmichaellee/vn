@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["../../**"],
+            "message": "Deep relative import: use a path alias instead (see AGENTS.md > Imports and path aliases)."
+          },
+          {
+            "group": ["*/lab/**"],
+            "message": "Production code may not reach into apps/api/src/routes/lab — lab consumes graduated modules, never the reverse (see AGENTS.md > apps/api/src/routes/lab is one-way)."
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.config.ts", "**/*.config.js"],
+      "rules": { "no-restricted-imports": "off" }
+    }
+  ]
+}
