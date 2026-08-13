@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json bun.lock ./
 COPY apps/api/package.json apps/api/package.json
 COPY apps/pwa/package.json apps/pwa/package.json
-RUN bun install --frozen-lockfile
+RUN bun install --frozen-lockfile --ignore-scripts
 
 COPY . .
 
@@ -13,9 +13,8 @@ ENV GIT_COMMIT=$GIT_COMMIT
 ENV NODE_ENV=production
 
 ENV VITE_API_URL=
-RUN bun run --cwd apps/pwa build && \
-    if [ "$INCLUDE_LAB" = "true" ]; then bun run --cwd apps/lab build; else rm -rf apps/lab; fi
+RUN bun run --cwd apps/pwa build
 
-EXPOSE 3000
+EXPOSE 6101
 WORKDIR /app/apps/api
 CMD ["bun", "run", "src/index.ts"]

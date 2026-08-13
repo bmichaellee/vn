@@ -38,8 +38,9 @@ export default defineConfig({
       exclude: [
         "**/*.test.{ts,tsx}",
         "apps/api/src/**/index.ts",
-        "apps/api/src/**/*.docs.ts",
-        "apps/api/src/v0/Schema/**",
+        "apps/api/src/**/*docs.ts",
+        "apps/api/src/**/Schema/**",
+        "apps/api/src/spa/*",
         "apps/pwa/src/main.tsx",
       ],
     },

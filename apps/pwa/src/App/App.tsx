@@ -18,9 +18,7 @@ export const App = () => {
 
   return (
     <div className={classes.container}>
-      <h1 className={classes.header}>
-        Welcome to the PWA App!
-      </h1>
+      <h1 className={classes.header}>Welcome to the PWA App!</h1>
       <p className={classes.paragraph}>
         This is a simple Progressive Web App built with React and TypeScript.
       </p>
@@ -44,14 +42,6 @@ const classes = {
     "min-h-screen",
     "bg-gray-100",
   ].join(" "),
-  header: [
-    "text-4xl",
-    "font-bold",
-    "text-gray-800",
-  ].join(" "),
-  paragraph: [
-    "mt-4",
-    "text-lg",
-    "text-gray-600",
-  ].join(" "),
-}
+  header: ["text-4xl", "font-bold", "text-gray-800"].join(" "),
+  paragraph: ["mt-4", "text-lg", "text-gray-600"].join(" "),
+};
