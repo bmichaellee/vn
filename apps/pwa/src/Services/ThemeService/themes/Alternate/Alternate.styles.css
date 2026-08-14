@@ -1,0 +1,8 @@
+:root[data-theme="alternate"] {
+  --background-color: #f5f1e8;
+  --surface-color: #fdfaf3;
+  --text-color: #3f3428;
+  --text-muted-color: #857a6a;
+  --primary-color: #b45309;
+  --border-color: #e0d8c8;
+}
