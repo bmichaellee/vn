@@ -12,12 +12,16 @@ const { getHealth } = vi.hoisted(() => {
   };
 });
 
-vi.mock("@Services", () => ({
-  AppService: {
-    getVersion: vi.fn().mockReturnValue("1.0.0"),
-    getHealth,
-  },
-}));
+vi.mock("@Services", async importOriginal => {
+  const actual = await importOriginal<typeof import("@Services")>();
+  return {
+    ...actual,
+    AppService: {
+      getVersion: vi.fn().mockReturnValue("1.0.0"),
+      getHealth,
+    },
+  };
+});
 
 afterEach(() => {
   vi.clearAllMocks();
