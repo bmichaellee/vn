@@ -9,6 +9,11 @@
   --color-border: var(--border-color);
 }
 
+:root {
+  --code-background-color: #030712;
+  --code-text-color: #34d399;
+}
+
 body {
   background-color: var(--background-color);
   color: var(--text-color);

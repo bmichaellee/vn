@@ -13,8 +13,8 @@
 }
 
 :root[data-theme="dark"] .code-block {
-  background-color: #030712;
-  color: #34d399;
+  background-color: var(--code-background-color);
+  color: var(--code-text-color);
 }
 
 :root[data-theme="alternate"] .code-block {
