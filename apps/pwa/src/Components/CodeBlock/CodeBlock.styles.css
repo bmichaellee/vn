@@ -1,0 +1,23 @@
+.code-block {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  font-size: 0.875rem;
+}
+
+:root[data-theme="light"] .code-block {
+  color: var(--primary-color);
+}
+
+:root[data-theme="dark"] .code-block {
+  background-color: #030712;
+  color: #34d399;
+}
+
+:root[data-theme="alternate"] .code-block {
+  border-style: dashed;
+  color: var(--primary-color);
+}

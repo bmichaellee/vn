@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Version } from "@Components/Version";
 import { ThemePicker } from "@Components/ThemePicker";
+import { CodeBlock } from "@Components/CodeBlock";
 
 import { AppService } from "@Services";
 
@@ -28,7 +29,7 @@ export const TemporaryLayout = () => {
       </span>
       <div>
         <p>Health Check:</p>
-        <code>{healthCheck}</code>
+        <CodeBlock>{healthCheck}</CodeBlock>
       </div>
       <div>
         <p>Theme Picker:</p>
@@ -47,6 +48,6 @@ const classes = {
     "min-h-screen",
     "bg-background",
   ].join(" "),
-  header: ["text-4xl", "font-bold", "text-gray-800"].join(" "),
-  paragraph: ["mt-4", "text-lg", "text-gray-600"].join(" "),
+  header: ["text-4xl", "font-bold", "text-foreground"].join(" "),
+  paragraph: ["mt-4", "text-lg", "text-muted"].join(" "),
 };
