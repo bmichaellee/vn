@@ -1,7 +1,6 @@
 import { ThemeService, useTheme } from "@Services";
 
 export const ThemePicker = () => {
-
   const themes = Object.values(ThemeService.availableThemes);
 
   const { theme, setTheme } = useTheme();
@@ -13,12 +12,18 @@ export const ThemePicker = () => {
 
   return (
     <>
-    <select aria-label="Theme Picker" value={ theme?.value } onChange={ handleSetTheme }>
-      { themes.map(({ name, value }) => (
-        <option key={ value } value={ value }>{ name }</option>
-      )) }
-    </select>
-    <span>{`current theme: ${theme?.value || "undefined"}`}</span>
+      <select
+        aria-label="Theme Picker"
+        value={theme?.value}
+        onChange={handleSetTheme}
+      >
+        {themes.map(({ name, value }) => (
+          <option key={value} value={value}>
+            {name}
+          </option>
+        ))}
+      </select>
+      <span>{`current theme: ${theme?.value}`}</span>
     </>
   );
-}
+};

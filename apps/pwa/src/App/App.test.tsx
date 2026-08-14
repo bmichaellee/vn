@@ -12,7 +12,7 @@ const { getHealth } = vi.hoisted(() => {
   };
 });
 
-vi.mock("@Services", async importOriginal => {
+vi.mock("@Services", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@Services")>();
   return {
     ...actual,

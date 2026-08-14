@@ -1,3 +1,5 @@
-export { DarkTheme } from "./Dark.theme";
-export { LightTheme } from "./Light.theme";
-export { AlternateTheme } from "./Alternate.theme";
+export { DarkTheme } from "./Dark";
+export { LightTheme } from "./Light";
+export { AlternateTheme } from "./Alternate";
+
+export type { Theme } from "./Theme";

@@ -1,21 +1,13 @@
-import { createContext, useContext, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ThemeService } from "../Theme.Service";
+import { ThemeContext } from "./Theme.Context";
 
 import type { ReactNode } from "react";
-import type { Theme } from "../Theme";
-
-interface ThemeContextValue {
-  theme: Theme | undefined;
-  setTheme: (themeValue: string) => void;
-}
-
-export const ThemeContext = createContext<ThemeContextValue | undefined>(
-  undefined,
-);
+import type { Theme } from "../themes";
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setThemeState] = useState<Theme | undefined>(() =>
+  const [theme, setThemeState] = useState<Theme>(() =>
     ThemeService.getTheme(
       localStorage.getItem(ThemeService.THEME_STORAGE_KEY) ?? "",
     ),
@@ -26,17 +18,13 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setThemeState(ThemeService.getTheme(themeValue));
   };
 
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme?.value);
+  }, [theme]);
+
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
-};
-
-export const useTheme = (): ThemeContextValue => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
 };

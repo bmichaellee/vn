@@ -1,11 +1,8 @@
-import type { Theme } from "../";
+import "./Light.styles.css";
 
-import { DefaultTheme } from "./Default.theme";
+import type { Theme } from "../";
 
 export const LightTheme: Theme = {
   name: "Light",
   value: "light",
-  ...DefaultTheme,
-
-  "background-color": "bg-gray-50",
 };

@@ -2,12 +2,9 @@ import { useEffect, useState } from "react";
 import { Version } from "@Components/Version";
 import { ThemePicker } from "@Components/ThemePicker";
 
-import { AppService, useTheme } from "@Services";
-
-import type { Theme } from "@Services";
+import { AppService } from "@Services";
 
 export const TemporaryLayout = () => {
-  
   const [healthCheck, setHealthCheck] = useState<string | null>(null);
 
   useEffect(() => {
@@ -19,10 +16,6 @@ export const TemporaryLayout = () => {
         setHealthCheck(`Error: ${error.message}`);
       });
   }, []);
-
-  const { theme } = useTheme();
-
-  
 
   return (
     <div className={classes.container}>
@@ -52,6 +45,7 @@ const classes = {
     "items-center",
     "justify-center",
     "min-h-screen",
+    "bg-background",
   ].join(" "),
   header: ["text-4xl", "font-bold", "text-gray-800"].join(" "),
   paragraph: ["mt-4", "text-lg", "text-gray-600"].join(" "),
