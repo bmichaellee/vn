@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  /* General UI colors */
+  /* Neutral colors */
   --color-background: var(--background-color);
   --color-surface: var(--surface-color);
   --color-foreground: var(--text-color);
   --color-muted: var(--text-muted-color);
   --color-border: var(--border-color);
 
-  /* Themed intent colors */
+  /* Intent colors */
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-destructive: var(--destructive);

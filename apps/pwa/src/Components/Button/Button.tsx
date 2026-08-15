@@ -39,7 +39,7 @@ export const Button = ({
     ...(className?.split(" ").filter(Boolean) ?? []),
   ].join(" ");
 
-  const textElement = title ?? children ?? (icon ? null : "Button");
+  const buttonText = title ?? children ?? (icon ? null : "Button");
 
   return (
     <button
@@ -48,7 +48,7 @@ export const Button = ({
       onClick={onClick}
     >
       {icon}
-      {textElement}
+      {buttonText}
     </button>
   );
 };
