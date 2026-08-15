@@ -1,0 +1,15 @@
+button:hover:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button--secondary {
+  outline-width: var(--secondary-border-width, 0);
+  outline-style: solid;
+  outline-color: var(--secondary-border-color, transparent);
+  outline-offset: calc(var(--secondary-border-width, 0) * -1);
+}

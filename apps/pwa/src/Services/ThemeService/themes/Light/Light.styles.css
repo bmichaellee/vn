@@ -5,4 +5,7 @@
   --text-muted-color: #6b7280;
   --primary-color: #2563eb;
   --border-color: #e5e7eb;
+  --primary: #2563eb;
+  --secondary: #64748b;
+  --destructive: #dc2626;
 }
