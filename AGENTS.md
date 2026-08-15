@@ -15,6 +15,17 @@ Prefix mock functions/values with `mock_` (snake_case, even in an otherwise
 camelCase codebase), e.g. `mock_onClick`. The visual break from camelCase
 flags it as a mock at a glance — `mockOnClick` blends in with real code.
 
+## Styling
+
+When a theme-conditional decoration (e.g. only one theme adds it) would use
+`border`, prefer `outline` instead. `outline` doesn't participate in layout,
+so it can't change an element's rendered size across themes/variants — no
+padding/sizing compensation needed. To sit flush against the edge like a
+border would, set `outline-offset: calc(<width> * -1)` — the outline grows
+outward from its offset line by its full width, so the offset must equal
+the negative of the outline width or it will overhang the element by the
+difference (half the width still overhangs by half).
+
 ## Comments
 
 Never add prose comments (e.g. `// manages the state of X`) unless explicitly

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+
+import { AppService } from "@Services";
+
 import { Version } from "@Components/Version";
 import { ThemePicker } from "@Components/ThemePicker";
 import { CodeBlock } from "@Components/CodeBlock";
-
-import { AppService } from "@Services";
+import { Button } from "@Components/Button";
 
 export const TemporaryLayout = () => {
   const [healthCheck, setHealthCheck] = useState<string | null>(null);
@@ -35,6 +37,10 @@ export const TemporaryLayout = () => {
         <p>Theme Picker:</p>
         <ThemePicker />
       </div>
+      <Button title="Primary" onClick={() => {}} />
+      <Button title="Secondary" secondary onClick={() => {}} />
+      <Button title="Disabled" disabled />
+      <Button title="Destructive" destructive onClick={() => {}} />
     </div>
   );
 };
