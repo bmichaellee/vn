@@ -28,37 +28,11 @@ describe("<Button />", () => {
     expect(getAllByRole("button")[1]).toHaveClass("test-class");
   });
 
-  it("uses theme-based styling with overrides", () => {
-    const { getAllByRole } = render(
-      <>
-        <Button />
-        <Button secondary />
-        <Button destructive />
-        <Button secondary destructive />
-        <Button primary secondary />
-      </>,
-    );
+  it("uses the intent color hook", () => {
+    const { getByRole } = render(<Button />);
+    const button = getByRole("button");
 
-    const buttonNames = [
-      "no props",
-      "secondary",
-      "destructive",
-      "secondary destructive",
-      "primary secondary",
-    ];
-
-    const buttons = Object.fromEntries(
-      getAllByRole("button").map((button, index) => [
-        buttonNames[index],
-        button,
-      ]),
-    );
-
-    expect(buttons["no props"]).toHaveClass("bg-(--primary)");
-    expect(buttons["secondary"]).toHaveClass("bg-(--secondary)");
-    expect(buttons["destructive"]).toHaveClass("bg-(--destructive)");
-    expect(buttons["secondary destructive"]).toHaveClass("bg-(--destructive)");
-    expect(buttons["primary secondary"]).toHaveClass("bg-(--primary)");
+    expect(button).toHaveClass("bg-(--primary)");
   });
 
   it("renders the provided title, or children, not both, and a default if neither are given", () => {

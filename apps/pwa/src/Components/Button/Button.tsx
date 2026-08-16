@@ -1,40 +1,34 @@
+import { useIntentColor } from "@Hooks";
+
 import "./Button.styles.css";
 
 interface ButtonProps {
   title?: string;
   children?: React.ReactNode;
-  primary?: boolean;
-  secondary?: boolean;
-  destructive?: boolean;
   disabled?: boolean;
   icon?: React.ReactNode;
   onClick?: () => void;
   className?: string;
+  secondary?: boolean;
+  destructive?: boolean;
 }
 
 export const Button = ({
   title,
   children,
-  primary,
-  secondary,
-  destructive,
   disabled,
   icon,
   onClick,
   className,
+  secondary,
+  destructive,
 }: ButtonProps) => {
-  const themeColor = primary
-    ? "--primary"
-    : destructive
-      ? "--destructive"
-      : secondary
-        ? "--secondary"
-        : "--primary";
+
+  const themeColor = useIntentColor({ secondary, destructive });
 
   const classNames = [
     classes.button,
     `bg-(${themeColor})`,
-    ...(destructive ? ["button--destructive"] : []),
     ...(secondary ? ["button--secondary"] : []),
     ...(className?.split(" ").filter(Boolean) ?? []),
   ].join(" ");
