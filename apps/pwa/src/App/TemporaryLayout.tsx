@@ -6,6 +6,8 @@ import { Version } from "@Components/Version";
 import { ThemePicker } from "@Components/ThemePicker";
 import { CodeBlock } from "@Components/CodeBlock";
 import { Button } from "@Components/Button";
+import { Backdrop } from "@Components/Backdrop";
+import { useBackdrop } from "@Components/Backdrop/provider";
 
 export const TemporaryLayout = () => {
   const [healthCheck, setHealthCheck] = useState<string | null>(null);
@@ -19,6 +21,12 @@ export const TemporaryLayout = () => {
         setHealthCheck(`Error: ${error.message}`);
       });
   }, []);
+
+  const { setActive } = useBackdrop();
+
+  useEffect(() => {
+    setActive(true);
+  }, [setActive]);
 
   return (
     <div className={classes.container}>
@@ -37,10 +45,29 @@ export const TemporaryLayout = () => {
         <p>Theme Picker:</p>
         <ThemePicker />
       </div>
-      <Button title="Primary" onClick={() => {}} />
-      <Button title="Secondary" secondary onClick={() => {}} />
+      <Button title="Primary" onClick={() => { }} />
+      <Button title="Secondary" secondary onClick={() => { }} />
       <Button title="Disabled" disabled />
-      <Button title="Destructive" destructive onClick={() => {}} />
+      <Button title="Destructive" destructive onClick={() => { }} />
+      <Backdrop persistent>
+        <div
+          className="bg-background p-4 rounded shadow-lg"
+          style={{
+            padding: "1rem",
+            borderRadius: "0.5rem",
+          }}
+        >
+          <h2>Backdrop Content</h2>
+          <p>This is some content inside the backdrop.</p>
+          <p>Click outside this box to dismiss the backdrop.</p>
+          <Button
+            title="Dismiss"
+            onClick={() => {
+              setActive(false);
+            }}
+          />
+        </div>
+      </Backdrop>
     </div>
   );
 };
