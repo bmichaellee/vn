@@ -5,10 +5,10 @@ import userEvent from "@testing-library/user-event";
 
 import { useBlockOutsideClicks } from "./useBlockOutsideClicks";
 
-const Blocker = () => {
+const Blocker = ({ children }: { children?: React.ReactNode }) => {
   const blockerRef = useRef<HTMLDivElement>(null);
   useBlockOutsideClicks(blockerRef);
-  return <div ref={blockerRef} />;
+  return <div ref={blockerRef}>{children}</div>;
 };
 
 describe("hook useBlockOutsideClicks", () => {
@@ -25,5 +25,19 @@ describe("hook useBlockOutsideClicks", () => {
     await user.click(getByText("Outside"));
 
     expect(mock_onClick).not.toHaveBeenCalled();
+  });
+
+  it("still allows clicks on content inside the container", async () => {
+    const user = userEvent.setup();
+    const mock_onClick = vi.fn();
+    const { getByText } = render(
+      <Blocker>
+        <button onClick={mock_onClick}>Inside</button>
+      </Blocker>,
+    );
+
+    await user.click(getByText("Inside"));
+
+    expect(mock_onClick).toHaveBeenCalled();
   });
 });

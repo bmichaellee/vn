@@ -17,7 +17,7 @@ export const Backdrop = ({ children, persistent }: BackdropProps) => {
   const { active, setActive } = useBackdrop();
 
   const backdropRef = useRef<HTMLDivElement>(null);
-  const blockInputRef = backdropRef;
+  const blockInputRef = active ? backdropRef : { current: null };
 
   useFocusTrap(blockInputRef);
   useBlockOutsideClicks(blockInputRef);
@@ -36,7 +36,7 @@ export const Backdrop = ({ children, persistent }: BackdropProps) => {
   return (
     <div
       className={classes.backdropContainer}
-      ref={active ? backdropRef : null}
+      ref={backdropRef}
       tabIndex={-1}
     >
       <div

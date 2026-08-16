@@ -8,9 +8,8 @@ export const useBlockOutsideScroll = (
     if (!container) return;
 
     const blockOutsideScroll = (event: Event) => {
-      if (!container.contains(event.target as Node)) {
-        event.preventDefault();
-      }
+      if (container.contains(event.target as Node)) return;
+      event.preventDefault();
     };
 
     const options = { capture: true, passive: false } as const;

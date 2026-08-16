@@ -8,6 +8,7 @@ export const useBlockOutsideClicks = (
     if (!container) return;
 
     const blockOutsideClicks = (event: MouseEvent) => {
+      if (container.contains(event.target as Node)) return;
       event.stopPropagation();
       event.preventDefault();
     };
