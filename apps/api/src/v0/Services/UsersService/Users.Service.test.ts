@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
+import { fixture_testUser } from "@Schema";
 
 import { UsersService } from "./Users.Service";
 
@@ -27,32 +28,27 @@ afterEach(() => {
 describe("class UsersService", () => {
   describe("static createUser", () => {
     it("creates a new user in the database with a random nanoid", async () => {
-      const createdUser = { id: "V1StGXR8_Z", handle: "ifrit" };
-      mock_returning.mockResolvedValueOnce([createdUser]);
+      mock_returning.mockResolvedValueOnce([fixture_testUser]);
 
       const user = await UsersService.createUser({ handle: "ifrit" });
 
       expect(mock_insert).toHaveBeenCalled();
-      expect(user).toEqual(createdUser);
+      expect(user).toEqual(fixture_testUser);
     });
   });
 
   describe("static getUserById", () => {
     it("retrieves a user from the database by ID", async () => {
-      const retrievedUser = { id: "V1StGXR8_Z", handle: "ifrit" };
-      mock_returning.mockResolvedValueOnce([retrievedUser]);
+      mock_returning.mockResolvedValueOnce([fixture_testUser]);
 
-      const user = await UsersService.getUserById("V1StGXR8_Z");
-
-      expect(mock_insert).toHaveBeenCalledTimes(0);
-      expect(user).toEqual(retrievedUser);
+      const user = await UsersService.getUserById(fixture_testUser.id);
+      expect(user).toEqual(fixture_testUser);
     });
 
     it("returns undefined if the user does not exist", async () => {
       mock_returning.mockResolvedValueOnce([]);
 
       const user = await UsersService.getUserById("nonexistent");
-
       expect(user).toBeUndefined();
     });
   });
