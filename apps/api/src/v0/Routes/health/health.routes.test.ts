@@ -4,11 +4,13 @@ import { AppService } from "@Services";
 import { healthRoutes } from "./health.routes";
 import { StatusMap } from "elysia/utils";
 
-const getConnectionStatus = vi.hoisted(() => vi.fn().mockResolvedValue(true));
+const mock_getConnectionStatus = vi.hoisted(() =>
+  vi.fn().mockResolvedValue(true),
+);
 
 vi.mock("@Database", () => ({
   Database: {
-    getConnectionStatus,
+    getConnectionStatus: mock_getConnectionStatus,
   },
 }));
 
@@ -31,7 +33,7 @@ describe("/health", () => {
     });
 
     it("returns the database connection failure status", async () => {
-      getConnectionStatus.mockResolvedValueOnce(false);
+      mock_getConnectionStatus.mockResolvedValueOnce(false);
 
       const response = await healthRoutes.handle(
         new Request("http://localhost/health"),

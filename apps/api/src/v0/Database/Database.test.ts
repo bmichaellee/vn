@@ -2,17 +2,17 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 
 import { Database } from "@Database";
 
-const { execute } = vi.hoisted(() => ({ execute: vi.fn() }));
+const { mock_execute } = vi.hoisted(() => ({ mock_execute: vi.fn() }));
 
 vi.mock("drizzle-orm/postgres-js", () => ({
   drizzle: vi.fn().mockReturnValue({
-    execute,
+    execute: mock_execute,
   }),
 }));
 
 vi.mock("postgres", () => ({
   default: vi.fn().mockReturnValue({
-    execute,
+    execute: mock_execute,
   }),
 }));
 
@@ -24,14 +24,14 @@ afterEach(() => {
 describe("class Database", () => {
   describe("static getConnectionStatus", () => {
     it("returns true when the database connection is successful", async () => {
-      execute.mockResolvedValueOnce({});
+      mock_execute.mockResolvedValueOnce({});
 
       const status = await Database.getConnectionStatus();
       expect(status).toBe(true);
     });
 
     it("returns false when the database connection fails", async () => {
-      execute.mockRejectedValueOnce(new Error("connection failed"));
+      mock_execute.mockRejectedValueOnce(new Error("connection failed"));
 
       const status = await Database.getConnectionStatus();
       expect(status).toBe(false);

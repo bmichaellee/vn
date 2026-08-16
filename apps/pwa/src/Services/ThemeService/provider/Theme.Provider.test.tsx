@@ -4,7 +4,7 @@ import { render } from "@testing-library/react";
 import { ThemeProvider } from "./Theme.Provider";
 import { useTheme } from "./useTheme";
 
-const localStorageMock = (() => {
+const mock_localStorage = (() => {
   let store: Record<string, string> = {};
   return {
     getItem: vi.fn((key) => store[key]),
@@ -15,7 +15,7 @@ const localStorageMock = (() => {
   };
 })();
 
-Object.defineProperty(global, "localStorage", { value: localStorageMock });
+Object.defineProperty(global, "localStorage", { value: mock_localStorage });
 
 beforeEach(() => {
   localStorage.clear();
@@ -39,7 +39,7 @@ describe("<ThemeProvider />", () => {
   });
 
   it("throws an error when the ThemeProvider is used without a ThemeContext", () => {
-    const consoleErrorSpy = vi
+    const mock_consoleError = vi
       .spyOn(console, "error")
       .mockImplementation(() => {});
 
@@ -49,6 +49,6 @@ describe("<ThemeProvider />", () => {
 
     expect(renderWithoutProvider).toThrow();
 
-    consoleErrorSpy.mockRestore();
+    mock_consoleError.mockRestore();
   });
 });
