@@ -30,7 +30,7 @@ const Consumer = () => {
   const { setActive } = useBackdrop();
 
   useEffect(() => {
-    setActive?.(true);
+    setActive(true);
   }, [setActive]);
 
   return <BackdropBase>children</BackdropBase>;

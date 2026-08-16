@@ -25,7 +25,7 @@ export const TemporaryLayout = () => {
   const { setActive } = useBackdrop();
 
   useEffect(() => {
-    setActive?.(true);
+    setActive(true);
   }, [setActive]);
 
   return (
@@ -60,7 +60,7 @@ export const TemporaryLayout = () => {
           <Button
             title="Dismiss"
             onClick={() => {
-              setActive?.(false);
+              setActive(false);
             }}
           />
         </div>
