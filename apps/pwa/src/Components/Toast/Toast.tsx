@@ -24,11 +24,13 @@ export interface ToastProps {
   onDismiss?: () => void;
 }
 
+const ICON_SIZE = 48;
+
 const DEFAULT_ICONS = {
-  info: <Info />,
-  success: <Check />,
-  warning: <Warning />,
-  error: <Error />,
+  info: <Info size={ICON_SIZE} />,
+  success: <Check size={ICON_SIZE} />,
+  warning: <Warning size={ICON_SIZE} />,
+  error: <Error size={ICON_SIZE} />,
 };
 
 export const Toast = ({
@@ -45,17 +47,13 @@ export const Toast = ({
 
   if (!mounted) return null;
 
-  const iconToRender =
+  const iconToRender = () =>
     icon ?? theme?.statusIcons?.[variant] ?? DEFAULT_ICONS[variant];
 
   const offscreenClass =
-    vertical === "middle"
-      ? horizontal === "left"
-        ? offscreenClasses.middleLeft
-        : horizontal === "right"
-          ? offscreenClasses.middleRight
-          : offscreenClasses.middleCenter
-      : offscreenClasses[vertical];
+    horizontal === "center"
+      ? offscreenClasses[vertical]
+      : offscreenClasses[horizontal];
 
   const classNames = [
     "transition-all",
@@ -70,15 +68,18 @@ export const Toast = ({
     "px-4",
     "py-2",
     "shadow-lg",
-    horizontal === "right" ? "flex-row-reverse" : "",
     vertical === "top" ? "mt-4" : vertical === "bottom" ? "mb-4" : "",
     ...(visible ? [] : [offscreenClass]),
   ].join(" ");
 
   return (
     <div className={classNames} role="alert">
-      <span className={`toast-icon--${variant}`}>{iconToRender}</span>
-      {children}
+      <div
+        className={`flex items-center gap-2 ${horizontal === "right" ? "flex-row-reverse" : ""}`}
+      >
+        {iconToRender()}
+        {children}
+      </div>
       {variant === "error" && (
         <button aria-label="Dismiss" onClick={onDismiss}>
           <X />
@@ -90,8 +91,8 @@ export const Toast = ({
 
 const offscreenClasses = {
   top: "-translate-y-full",
+  middle: "opacity-0",
   bottom: "translate-y-full",
-  middleLeft: "-translate-x-full",
-  middleRight: "translate-x-full",
-  middleCenter: "opacity-0",
+  left: "-translate-x-full",
+  right: "translate-x-full",
 };

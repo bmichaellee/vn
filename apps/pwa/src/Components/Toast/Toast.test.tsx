@@ -156,22 +156,25 @@ describe("<Toast />", () => {
     });
     expect(queryByRole("alert")).not.toBeInTheDocument();
   });
-  it("uses theme-based styling, coloring the icon by variant", async () => {
-    const user = userEvent.setup();
 
-    for (const variant of ["info", "success", "warning", "error"] as const) {
+  it("prefers animating from the side edge when not horizontally centered", () => {
+    vi.useFakeTimers();
+
+    for (const [horizontal, expectedClass] of [
+      ["left", "-translate-x-full"],
+      ["right", "translate-x-full"],
+    ] as const) {
       const { getByRole, unmount } = render(
-        <AppWithToasts variant={variant} />,
+        <AppWithToasts vertical="top" horizontal={horizontal} />,
       );
 
-      await user.click(getByRole("button", { name: "Activate" }));
-
-      expect(getByRole("alert").firstElementChild).toHaveClass(
-        `toast-icon--${variant}`,
-      );
+      fireEvent.click(getByRole("button", { name: "Activate" }));
+      expect(getByRole("alert")).toHaveClass(expectedClass);
+      expect(getByRole("alert")).not.toHaveClass("-translate-y-full");
       unmount();
     }
   });
+
   it("is configurable to appear in the top, middle or bottom of the viewport", async () => {
     const user = userEvent.setup();
 
@@ -220,7 +223,7 @@ describe("<Toast />", () => {
             value: "test",
             statusIcons: { success: <Bot data-testid="theme-icon" /> },
           },
-          setTheme: () => { },
+          setTheme: () => {},
         }}
       >
         <AppWithToasts variant="success" />
