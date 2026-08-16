@@ -12,6 +12,9 @@
       "@Components/*": [
         "./src/Components/*"
       ],
+      "@Hooks": [
+        "./src/Hooks"
+      ],
       "@Services": [
         "./src/Services"
       ],
