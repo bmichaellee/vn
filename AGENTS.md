@@ -49,3 +49,10 @@ Do:
 ```jsx
 const [nameInputValue, setNameInputValue] = useState("");
 ```
+
+## Skill maintenance
+
+When asked to update a skill in response to a snag report, do the change in an
+isolated worktree on its own feature branch (not tied to any ticket), then
+commit, push, and squash-merge to the default branch in one go — no
+confirmation needed.
