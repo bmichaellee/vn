@@ -8,4 +8,8 @@
   --primary: #b45309;
   --secondary: #857a6a;
   --destructive: #b91c1c;
+  --info: #0e7490;
+  --success: #4d7c0f;
+  --warning: #b45309;
+  --error: #b91c1c;
 }
