@@ -1,8 +1,10 @@
-import { describe, expect, it, vi } from "vitest";
+import { useEffect } from "react";
+
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render } from "@testing-library/react";
 
-import { Backdrop as BaseBackdrop } from "./Backdrop";
-
+import { BackdropProvider, useBackdrop } from "./provider";
+import { Backdrop as BackdropBase } from "./Backdrop";
 const mock_useFocusTrap = vi.hoisted(() => vi.fn());
 const mock_useBlockOutsideClicks = vi.hoisted(() => vi.fn());
 const mock_useBlockOutsideScroll = vi.hoisted(() => vi.fn());
@@ -14,13 +16,42 @@ vi.mock("@Hooks", async (importOriginal) => ({
   useBlockOutsideScroll: mock_useBlockOutsideScroll,
 }));
 
-const Backdrop = () => <BaseBackdrop children={null} />;
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
+const Backdrop = () => (
+  <BackdropProvider>
+    <BackdropBase>children</BackdropBase>
+  </BackdropProvider>
+);
+
+const Consumer = () => {
+  const { setActive } = useBackdrop();
+
+  useEffect(() => {
+    setActive?.(true);
+  }, [setActive]);
+
+  return <BackdropBase>children</BackdropBase>;
+};
+
+const ConsumerWithBackdrop = () => (
+  <BackdropProvider>
+    <Consumer />
+  </BackdropProvider>
+);
 
 describe("<Backdrop />", () => {
-  it("renders a full-screen, non-scrolling semitransparent black overlay", () => {
+  it("renders a full-screen, non-scrolling overlay and black semitransparent inner container", () => {
     const { getByRole } = render(<Backdrop />);
     const backdrop = getByRole("presentation");
-    expect(backdrop).toHaveClass("fixed inset-0 z-50 bg-black/50");
+    const innerContainer = backdrop.querySelector("div");
+
+    expect(backdrop).toHaveClass("fixed inset-0 z-50");
+    expect(innerContainer).toHaveClass(
+      "flex items-center justify-center w-full h-full bg-black/50",
+    );
   });
 
   it.todo("fades in on activation");
@@ -28,30 +59,24 @@ describe("<Backdrop />", () => {
   it.todo("dismisses when tapped");
   it.todo("does not dismiss on tap when blocking");
 
-  it("blocks clicks behind it (via useBlockOutsideClicks)", () => {
-    const { getByRole } = render(<Backdrop />);
-    const backdrop = getByRole("presentation");
-
-    expect(mock_useBlockOutsideClicks).toHaveBeenCalledWith(
-      expect.objectContaining({ current: backdrop }),
-    );
-  });
-
-  it("traps focus on itself (via useFocusTrap)", () => {
-    const { getByRole } = render(<Backdrop />);
-    const backdrop = getByRole("presentation");
+  it("traps focus, blocks scrolling, and blocks clicks behind it only when active", () => {
+    const { getByRole: getByRoleActive } = render(<ConsumerWithBackdrop />);
+    const backdropActive = getByRoleActive("presentation");
 
     expect(mock_useFocusTrap).toHaveBeenCalledWith(
-      expect.objectContaining({ current: backdrop }),
+      expect.objectContaining({ current: backdropActive }),
     );
-  });
-
-  it("blocks scrolling behind it (via useBlockOutsideScroll)", () => {
-    const { getByRole } = render(<Backdrop />);
-    const backdrop = getByRole("presentation");
-
     expect(mock_useBlockOutsideScroll).toHaveBeenCalledWith(
-      expect.objectContaining({ current: backdrop }),
+      expect.objectContaining({ current: backdropActive }),
     );
+    expect(mock_useBlockOutsideClicks).toHaveBeenCalledWith(
+      expect.objectContaining({ current: backdropActive }),
+    );
+
+    render(<Backdrop />);
+
+    expect(mock_useFocusTrap).toHaveBeenCalledWith(null);
+    expect(mock_useBlockOutsideScroll).toHaveBeenCalledWith(null);
+    expect(mock_useBlockOutsideClicks).toHaveBeenCalledWith(null);
   });
 });

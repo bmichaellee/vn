@@ -7,6 +7,7 @@ import { ThemePicker } from "@Components/ThemePicker";
 import { CodeBlock } from "@Components/CodeBlock";
 import { Button } from "@Components/Button";
 import { Backdrop } from "@Components/Backdrop";
+import { useBackdrop } from "@Components/Backdrop/provider";
 
 export const TemporaryLayout = () => {
   const [healthCheck, setHealthCheck] = useState<string | null>(null);
@@ -20,6 +21,12 @@ export const TemporaryLayout = () => {
         setHealthCheck(`Error: ${error.message}`);
       });
   }, []);
+
+  const { setActive } = useBackdrop();
+
+  useEffect(() => {
+    setActive?.(true);
+  }, [setActive]);
 
   return (
     <div className={classes.container}>
@@ -38,13 +45,24 @@ export const TemporaryLayout = () => {
         <p>Theme Picker:</p>
         <ThemePicker />
       </div>
-      <Button title="Primary" onClick={() => { }} />
-      <Button title="Secondary" secondary onClick={() => { }} />
+      <Button title="Primary" onClick={() => {}} />
+      <Button title="Secondary" secondary onClick={() => {}} />
       <Button title="Disabled" disabled />
-      <Button title="Destructive" destructive onClick={() => { }} />
+      <Button title="Destructive" destructive onClick={() => {}} />
       <Backdrop>
-        <div style={{ background: "white", padding: "1rem", borderRadius: "0.5rem" }}>
-          <Button title="Dismiss" onClick={() => { }} />
+        <div
+          style={{
+            background: "white",
+            padding: "1rem",
+            borderRadius: "0.5rem",
+          }}
+        >
+          <Button
+            title="Dismiss"
+            onClick={() => {
+              setActive?.(false);
+            }}
+          />
         </div>
       </Backdrop>
     </div>

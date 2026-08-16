@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 
 export const useBlockOutsideScroll = (
-  ref: React.RefObject<HTMLElement | null>,
+  ref: React.RefObject<HTMLElement | null> | null,
 ) => {
   useEffect(() => {
+    if (!ref) return;
     const container = ref.current;
     if (!container) return;
 

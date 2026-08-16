@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 
-export const useFocusTrap = (ref: React.RefObject<HTMLElement | null>) => {
+export const useFocusTrap = (
+  ref: React.RefObject<HTMLElement | null> | null,
+) => {
   useEffect(() => {
+    if (!ref) return;
     const container = ref.current;
     if (!container) return;
 

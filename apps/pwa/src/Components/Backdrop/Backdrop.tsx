@@ -6,6 +6,8 @@ import {
   useFocusTrap,
 } from "@Hooks";
 
+import { useBackdrop } from "./provider";
+
 import "./Backdrop.styles.css";
 
 interface BackdropProps {
@@ -13,11 +15,19 @@ interface BackdropProps {
 }
 
 export const Backdrop = ({ children }: BackdropProps) => {
-  const backdropRef = useRef<HTMLDivElement>(null);
+  const { active } = useBackdrop();
 
-  useFocusTrap(backdropRef);
-  useBlockOutsideClicks(backdropRef);
-  useBlockOutsideScroll(backdropRef);
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const blockInputRef = active ? backdropRef : null;
+
+  useFocusTrap(blockInputRef);
+  useBlockOutsideClicks(blockInputRef);
+  useBlockOutsideScroll(blockInputRef);
+
+  const innerContainerClasses = [
+    classes.innerContainer,
+    active ? classes.active : classes.inactive,
+  ].join(" ");
 
   return (
     <div
@@ -26,19 +36,23 @@ export const Backdrop = ({ children }: BackdropProps) => {
       tabIndex={-1}
       className={classes.backdrop}
     >
-      {children}
+      <div className={innerContainerClasses}>{children}</div>
     </div>
   );
 };
 
 const classes = {
-  backdrop: [
-    "fixed",
-    "inset-0",
-    "z-50",
-    "bg-black/50",
+  backdrop: ["fixed", "inset-0", "z-50"].join(" "),
+  innerContainer: [
     "flex",
     "items-center",
     "justify-center",
+    "w-full",
+    "h-full",
+    "bg-black/50",
+    "transition-opacity",
+    "duration-400",
   ].join(" "),
+  active: ["opacity-100"],
+  inactive: ["opacity-0"],
 };
