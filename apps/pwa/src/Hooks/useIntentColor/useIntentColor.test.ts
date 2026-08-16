@@ -9,7 +9,9 @@ describe("hook useIntentColor", () => {
   });
 
   it("applies destructive > secondary > primary precedence when multiple intents are set", () => {
-    expect(useIntentColor({ destructive: true, secondary: true })).toBe("--destructive");
+    expect(useIntentColor({ destructive: true, secondary: true })).toBe(
+      "--destructive",
+    );
     expect(useIntentColor({ secondary: true })).toBe("--secondary");
     expect(useIntentColor()).toBe("--primary");
   });

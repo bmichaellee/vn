@@ -3,13 +3,10 @@ interface IntentProps {
   destructive?: boolean;
 }
 
-export const useIntentColor = (
-  {
-    secondary,
-    destructive,
-  }: IntentProps = {},
-) => {
-
+export const useIntentColor = ({
+  secondary,
+  destructive,
+}: IntentProps = {}) => {
   const themeColor = destructive
     ? "--destructive"
     : secondary

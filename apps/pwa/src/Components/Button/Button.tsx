@@ -23,7 +23,6 @@ export const Button = ({
   secondary,
   destructive,
 }: ButtonProps) => {
-
   const themeColor = useIntentColor({ secondary, destructive });
 
   const classNames = [
