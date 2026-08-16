@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ThemeService } from "./Theme.Service";
 
-const localStorageMock = (() => {
+const mock_localStorage = (() => {
   let store: Record<string, string> = {};
   return {
     getItem: vi.fn((key) => store[key]),
@@ -13,7 +13,7 @@ const localStorageMock = (() => {
   };
 })();
 
-Object.defineProperty(global, "localStorage", { value: localStorageMock });
+Object.defineProperty(global, "localStorage", { value: mock_localStorage });
 
 beforeEach(() => {
   localStorage.clear();
@@ -36,11 +36,11 @@ describe("ThemeService", () => {
   describe("static setTheme", () => {
     it("persists the selected theme via localStorage so it survives a refresh", async () => {
       expect(
-        localStorageMock.getItem(ThemeService.THEME_STORAGE_KEY),
+        mock_localStorage.getItem(ThemeService.THEME_STORAGE_KEY),
       ).toBeUndefined();
 
       ThemeService.setTheme("dark");
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+      expect(mock_localStorage.setItem).toHaveBeenCalledWith(
         ThemeService.THEME_STORAGE_KEY,
         "dark",
       );

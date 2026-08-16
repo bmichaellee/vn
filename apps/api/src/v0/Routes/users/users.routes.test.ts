@@ -3,11 +3,11 @@ import { StatusMap } from "elysia/utils";
 
 import { usersRoutes } from "./users.routes";
 
-const getUserById = vi.hoisted(() => vi.fn());
+const mock_getUserById = vi.hoisted(() => vi.fn());
 
 vi.mock("@Services", () => ({
   UsersService: {
-    getUserById,
+    getUserById: mock_getUserById,
   },
 }));
 
@@ -19,7 +19,7 @@ const testUser = {
 describe("/users", () => {
   describe("GET /users/:id", () => {
     it("returns the user with the given id", async () => {
-      getUserById.mockReturnValueOnce(testUser);
+      mock_getUserById.mockReturnValueOnce(testUser);
 
       const response = await usersRoutes.handle(
         new Request(`http://localhost/users/${testUser.id}`),
@@ -31,7 +31,7 @@ describe("/users", () => {
     });
 
     it("returns Not Found for a nonexistant user", async () => {
-      getUserById.mockReturnValueOnce(undefined);
+      mock_getUserById.mockReturnValueOnce(undefined);
 
       const response = await usersRoutes.handle(
         new Request(`http://localhost/users/nonexistent`),

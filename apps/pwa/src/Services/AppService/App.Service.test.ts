@@ -2,15 +2,15 @@ import { describe, it, expect, vi } from "vitest";
 
 import { AppService } from "./App.Service";
 
-const { get } = vi.hoisted(() => ({ get: vi.fn() }));
+const { mock_get } = vi.hoisted(() => ({ mock_get: vi.fn() }));
 
 vi.mock("@API", () => ({
   API: {
-    get,
+    get: mock_get,
   },
 }));
 
-const mockHealthResponse = {
+const mock_healthResponse = {
   database: "ok",
   version: "1.0.0",
 };
@@ -18,11 +18,11 @@ const mockHealthResponse = {
 describe("class AppService", () => {
   describe("static getHealth", () => {
     it("returns a health status object", async () => {
-      get.mockResolvedValueOnce(mockHealthResponse);
+      mock_get.mockResolvedValueOnce(mock_healthResponse);
 
       const health = await AppService.getHealth();
 
-      expect(health).toEqual(mockHealthResponse);
+      expect(health).toEqual(mock_healthResponse);
     });
   });
 

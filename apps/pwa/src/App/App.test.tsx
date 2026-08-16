@@ -3,9 +3,9 @@ import { act, render } from "@testing-library/react";
 
 import { App } from "./App";
 
-const { getHealth } = vi.hoisted(() => {
+const { mock_getHealth } = vi.hoisted(() => {
   return {
-    getHealth: vi.fn().mockResolvedValue({
+    mock_getHealth: vi.fn().mockResolvedValue({
       database: "ok",
       version: "1.0.0",
     }),
@@ -18,7 +18,7 @@ vi.mock("@Services", async (importOriginal) => {
     ...actual,
     AppService: {
       getVersion: vi.fn().mockReturnValue("1.0.0"),
-      getHealth,
+      getHealth: mock_getHealth,
     },
   };
 });
@@ -40,7 +40,7 @@ describe("<App />", () => {
   });
 
   it("displays an error message when the health check fails", async () => {
-    getHealth.mockRejectedValueOnce(new Error("Health check failed"));
+    mock_getHealth.mockRejectedValueOnce(new Error("Health check failed"));
     const { getByText } = await act(async () => render(<App />));
     expect(getByText("Error: Health check failed")).toBeInTheDocument();
   });
