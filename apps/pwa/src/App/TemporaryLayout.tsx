@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-
 import { AppService } from "@Services";
 
 import { Version } from "@Components/Version";
 import { ThemePicker } from "@Components/ThemePicker";
 import { CodeBlock } from "@Components/CodeBlock";
 import { Button } from "@Components/Button";
-import { Backdrop } from "@Components/Backdrop";
-import { useBackdrop } from "@Components/Backdrop/provider";
+import { useToast } from "@Components/Toast";
+import { Backdrop, useBackdrop } from "@Components/Backdrop";
+
+import type { ToastProps } from "@Components/Toast";
 
 export const TemporaryLayout = () => {
   const [healthCheck, setHealthCheck] = useState<string | null>(null);
@@ -23,10 +24,19 @@ export const TemporaryLayout = () => {
   }, []);
 
   const { setActive } = useBackdrop();
+  const { triggerToast } = useToast();
 
   useEffect(() => {
     setActive(true);
   }, [setActive]);
+
+  const handleTriggerToast = () => {
+    const toast: ToastProps = {
+      // Add your toast properties here
+    };
+
+    triggerToast(toast);
+  };
 
   return (
     <div className={classes.container}>
@@ -49,6 +59,7 @@ export const TemporaryLayout = () => {
       <Button title="Secondary" secondary onClick={() => { }} />
       <Button title="Disabled" disabled />
       <Button title="Destructive" destructive onClick={() => { }} />
+      <Button title="Trigger Toast" onClick={handleTriggerToast} />
       <Backdrop persistent>
         <div
           className="bg-background p-4 rounded shadow-lg"
@@ -64,6 +75,7 @@ export const TemporaryLayout = () => {
             title="Dismiss"
             onClick={() => {
               setActive(false);
+              triggerToast({});
             }}
           />
         </div>
