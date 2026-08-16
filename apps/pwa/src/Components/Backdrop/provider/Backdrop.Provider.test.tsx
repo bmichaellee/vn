@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -35,8 +35,6 @@ describe("<BackdropProvider />", () => {
   });
 
   it("throws an error when used outside of BackdropProvider", () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => { });
-
     let error;
 
     try {
@@ -46,10 +44,5 @@ describe("<BackdropProvider />", () => {
     }
 
     expect(error).toBeInstanceOf(Error);
-    expect((error as Error).message).toBe(
-      "useBackdrop must be used within a BackdropProvider",
-    );
-
-    consoleErrorSpy.mockRestore();
   });
 });

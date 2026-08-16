@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-
 import { AppService } from "@Services";
 
 import { Version } from "@Components/Version";
 import { ThemePicker } from "@Components/ThemePicker";
 import { CodeBlock } from "@Components/CodeBlock";
 import { Button } from "@Components/Button";
-import { Backdrop } from "@Components/Backdrop";
-import { useBackdrop } from "@Components/Backdrop/provider";
+import { useToast } from "@Components/Toast";
+import { Backdrop, useBackdrop } from "@Components/Backdrop";
+
+import type { ToastProps } from "@Components/Toast";
 
 export const TemporaryLayout = () => {
   const [healthCheck, setHealthCheck] = useState<string | null>(null);
@@ -23,10 +24,27 @@ export const TemporaryLayout = () => {
   }, []);
 
   const { setActive } = useBackdrop();
+  const { triggerToast } = useToast();
 
   useEffect(() => {
     setActive(true);
   }, [setActive]);
+
+  const handleTriggerToast = () => {
+    const pick = <T,>(options: T[]) =>
+      options[Math.floor(Math.random() * options.length)];
+
+    const variant = pick(["info", "success", "warning", "error"] as const);
+
+    const toast: ToastProps = {
+      variant,
+      vertical: pick(["top", "middle", "bottom"] as const),
+      horizontal: pick(["left", "center", "right"] as const),
+      children: `I'm a ${variant} toast!`,
+    };
+
+    triggerToast(toast);
+  };
 
   return (
     <div className={classes.container}>
@@ -45,10 +63,11 @@ export const TemporaryLayout = () => {
         <p>Theme Picker:</p>
         <ThemePicker />
       </div>
-      <Button title="Primary" onClick={() => { }} />
-      <Button title="Secondary" secondary onClick={() => { }} />
+      <Button title="Primary" onClick={() => {}} />
+      <Button title="Secondary" secondary onClick={() => {}} />
       <Button title="Disabled" disabled />
-      <Button title="Destructive" destructive onClick={() => { }} />
+      <Button title="Destructive" destructive onClick={() => {}} />
+      <Button title="Trigger Toast" onClick={handleTriggerToast} />
       <Backdrop persistent>
         <div
           className="bg-background p-4 rounded shadow-lg"
@@ -64,6 +83,18 @@ export const TemporaryLayout = () => {
             title="Dismiss"
             onClick={() => {
               setActive(false);
+              triggerToast({
+                horizontal: "center",
+                vertical: "bottom",
+                variant: "success",
+                children: "I'm a toast!",
+              });
+              triggerToast({
+                horizontal: "left",
+                vertical: "top",
+                variant: "error",
+                children: "I'm an error toast!",
+              });
             }}
           />
         </div>

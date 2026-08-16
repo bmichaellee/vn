@@ -1,0 +1,15 @@
+.toast--info {
+  background-color: var(--info);
+}
+
+.toast--success {
+  background-color: var(--success);
+}
+
+.toast--warning {
+  background-color: var(--warning);
+}
+
+.toast--error {
+  background-color: var(--error);
+}

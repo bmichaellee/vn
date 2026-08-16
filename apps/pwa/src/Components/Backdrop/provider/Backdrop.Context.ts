@@ -5,4 +5,6 @@ export interface BackdropContextValue {
   setActive: (active: boolean) => void;
 }
 
-export const BackdropContext = createContext<BackdropContextValue | undefined>(undefined);
+export const BackdropContext = createContext<BackdropContextValue | undefined>(
+  undefined,
+);

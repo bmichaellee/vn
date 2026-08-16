@@ -1,17 +1,18 @@
-import { act, useEffect } from "react";
+import { useEffect } from "react";
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { BackdropProvider, useBackdrop } from "./provider";
-import { Backdrop, Backdrop as BackdropBase } from "./Backdrop";
+import { Backdrop } from "./Backdrop";
 
 import type { BackdropProps } from "./Backdrop";
 
-const { useFocusTrap: mock_useFocusTrap,
+const {
+  useFocusTrap: mock_useFocusTrap,
   useBlockOutsideClicks: mock_useBlockOutsideClicks,
-  useBlockOutsideScroll: mock_useBlockOutsideScroll
+  useBlockOutsideScroll: mock_useBlockOutsideScroll,
 } = vi.hoisted(() => ({
   useFocusTrap: vi.fn(),
   useBlockOutsideClicks: vi.fn(),
@@ -29,12 +30,15 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-const Consumer = ({ active, ...props }: { active?: boolean } & BackdropProps) => {
+const Consumer = ({
+  active,
+  ...props
+}: { active?: boolean } & BackdropProps) => {
   const { setActive } = useBackdrop();
 
   useEffect(() => {
     setActive(active ?? false);
-  }, [active]);
+  }, [setActive, active]);
 
   return (
     <>
@@ -47,7 +51,11 @@ const Consumer = ({ active, ...props }: { active?: boolean } & BackdropProps) =>
   );
 };
 
-const AppWithBackdrop = ({ active, persistent, ...props }: { active?: boolean; persistent?: boolean } & BackdropProps) => (
+const AppWithBackdrop = ({
+  active,
+  persistent,
+  ...props
+}: { active?: boolean; persistent?: boolean } & BackdropProps) => (
   <BackdropProvider>
     <Consumer active={active} persistent={persistent} {...props} />
   </BackdropProvider>
@@ -55,7 +63,7 @@ const AppWithBackdrop = ({ active, persistent, ...props }: { active?: boolean; p
 
 describe("<Backdrop />", () => {
   it("renders a full-screen, non-scrolling overlay", () => {
-    const { container, getByRole } = render(<AppWithBackdrop />);
+    const { container, getByRole } = render(<AppWithBackdrop active />);
     const backdropContainer = container.firstChild;
     const overlay = getByRole("presentation");
 
@@ -69,20 +77,23 @@ describe("<Backdrop />", () => {
     const innerContainer = getByRole("presentation").parentElement;
 
     await user.click(getByText("children"));
-    expect(innerContainer).toHaveClass("opacity-100");
+    await waitFor(() => expect(innerContainer).toHaveClass("opacity-100"));
 
     await user.click(getByRole("presentation"));
     expect(innerContainer).toHaveClass("opacity-0");
-
   });
 
   it("does not dismiss when persistent", async () => {
     const user = userEvent.setup();
-    const { getByRole, getByText } = render(<AppWithBackdrop active persistent />);
+    const { getByRole, getByText } = render(
+      <AppWithBackdrop active persistent />,
+    );
     const innerContainerPersistent = getByRole("presentation").parentElement;
 
     await user.click(getByText("children"));
-    expect(innerContainerPersistent).toHaveClass("opacity-100");
+    await waitFor(() =>
+      expect(innerContainerPersistent).toHaveClass("opacity-100"),
+    );
 
     await user.click(getByRole("presentation"));
     expect(innerContainerPersistent).toHaveClass("opacity-100");
