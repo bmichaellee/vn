@@ -4,9 +4,12 @@ import {
   useBlockOutsideClicks,
   useBlockOutsideScroll,
   useFocusTrap,
+  usePresence,
 } from "@Hooks";
 
 import { useBackdrop } from "./provider";
+
+const TRANSITION_MS = 400;
 
 export interface BackdropProps {
   children?: React.ReactNode;
@@ -15,6 +18,7 @@ export interface BackdropProps {
 
 export const Backdrop = ({ children, persistent }: BackdropProps) => {
   const { active, setActive } = useBackdrop();
+  const { mounted, visible } = usePresence(active, TRANSITION_MS);
 
   const backdropRef = useRef<HTMLDivElement>(null);
   const blockInputRef = active ? backdropRef : { current: null };
@@ -30,18 +34,14 @@ export const Backdrop = ({ children, persistent }: BackdropProps) => {
 
   const innerContainerClasses = [
     classes.innerContainer,
-    active ? classes.active : classes.inactive,
+    visible ? classes.active : classes.inactive,
   ].join(" ");
 
+  if (!mounted) return null;
+
   return (
-    <div
-      className={classes.backdropContainer}
-      ref={backdropRef}
-      tabIndex={-1}
-    >
-      <div
-        className={innerContainerClasses}
-      >
+    <div className={classes.backdropContainer} ref={backdropRef} tabIndex={-1}>
+      <div className={innerContainerClasses}>
         <div
           className={classes.overlay}
           onClick={handleDismissBackdrop}

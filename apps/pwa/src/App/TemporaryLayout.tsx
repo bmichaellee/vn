@@ -31,8 +31,16 @@ export const TemporaryLayout = () => {
   }, [setActive]);
 
   const handleTriggerToast = () => {
+    const pick = <T,>(options: T[]) =>
+      options[Math.floor(Math.random() * options.length)];
+
+    const variant = pick(["info", "success", "warning", "error"] as const);
+
     const toast: ToastProps = {
-      // Add your toast properties here
+      variant,
+      vertical: pick(["top", "middle", "bottom"] as const),
+      horizontal: pick(["left", "center", "right"] as const),
+      children: `I'm a ${variant} toast!`,
     };
 
     triggerToast(toast);
@@ -55,10 +63,10 @@ export const TemporaryLayout = () => {
         <p>Theme Picker:</p>
         <ThemePicker />
       </div>
-      <Button title="Primary" onClick={() => { }} />
-      <Button title="Secondary" secondary onClick={() => { }} />
+      <Button title="Primary" onClick={() => {}} />
+      <Button title="Secondary" secondary onClick={() => {}} />
       <Button title="Disabled" disabled />
-      <Button title="Destructive" destructive onClick={() => { }} />
+      <Button title="Destructive" destructive onClick={() => {}} />
       <Button title="Trigger Toast" onClick={handleTriggerToast} />
       <Backdrop persistent>
         <div
@@ -75,7 +83,18 @@ export const TemporaryLayout = () => {
             title="Dismiss"
             onClick={() => {
               setActive(false);
-              triggerToast({});
+              triggerToast({
+                horizontal: "center",
+                vertical: "bottom",
+                variant: "success",
+                children: "I'm a toast!",
+              });
+              triggerToast({
+                horizontal: "left",
+                vertical: "top",
+                variant: "error",
+                children: "I'm an error toast!",
+              });
             }}
           />
         </div>
