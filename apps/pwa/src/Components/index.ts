@@ -1,3 +1,3 @@
-export { Version } from "./Version";
-export { ThemePicker } from "./ThemePicker";
-export { Button } from "./Button";
+export * from "./Version";
+export * from "./ThemePicker";
+export * from "./Button";
