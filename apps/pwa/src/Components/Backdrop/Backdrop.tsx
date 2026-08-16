@@ -1,6 +1,10 @@
 import { useRef } from "react";
 
-import { useFocusTrap } from "@Hooks";
+import {
+  useBlockOutsideClicks,
+  useBlockOutsideScroll,
+  useFocusTrap,
+} from "@Hooks";
 
 import "./Backdrop.styles.css";
 
@@ -10,7 +14,10 @@ interface BackdropProps {
 
 export const Backdrop = ({ children }: BackdropProps) => {
   const backdropRef = useRef<HTMLDivElement>(null);
+
   useFocusTrap(backdropRef);
+  useBlockOutsideClicks(backdropRef);
+  useBlockOutsideScroll(backdropRef);
 
   return (
     <div
