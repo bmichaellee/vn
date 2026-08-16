@@ -15,7 +15,7 @@ const scroll = (target: Element) =>
     new WheelEvent("wheel", { bubbles: true, cancelable: true }),
   );
 
-describe("useBlockOutsideScroll", () => {
+describe("hook useBlockOutsideScroll", () => {
   it("blocks scrolling of content outside the container", () => {
     const { getByText } = render(
       <>

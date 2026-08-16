@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 
 export const useFocusTrap = (
-  ref: React.RefObject<HTMLElement | null> | null,
+  ref: React.RefObject<HTMLElement | null>,
 ) => {
   useEffect(() => {
-    if (!ref) return;
-    const container = ref.current;
+    const container = ref?.current;
     if (!container) return;
 
     const trapFocus = (event: FocusEvent) => {

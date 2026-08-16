@@ -1,18 +1,15 @@
 import { useEffect } from "react";
 
 export const useBlockOutsideClicks = (
-  ref: React.RefObject<HTMLElement | null> | null,
+  ref: React.RefObject<HTMLElement | null>,
 ) => {
   useEffect(() => {
-    if (!ref) return;
-    const container = ref.current;
+    const container = ref?.current;
     if (!container) return;
 
     const blockOutsideClicks = (event: MouseEvent) => {
-      if (!container.contains(event.target as Node)) {
-        event.stopPropagation();
-        event.preventDefault();
-      }
+      event.stopPropagation();
+      event.preventDefault();
     };
 
     document.addEventListener("click", blockOutsideClicks, true);

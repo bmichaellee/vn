@@ -11,7 +11,7 @@ const Blocker = () => {
   return <div ref={blockerRef} />;
 };
 
-describe("useBlockOutsideClicks", () => {
+describe("hook useBlockOutsideClicks", () => {
   it("blocks clicks on content outside the container", async () => {
     const user = userEvent.setup();
     const mock_onClick = vi.fn();

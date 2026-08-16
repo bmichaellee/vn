@@ -45,18 +45,21 @@ export const TemporaryLayout = () => {
         <p>Theme Picker:</p>
         <ThemePicker />
       </div>
-      <Button title="Primary" onClick={() => {}} />
-      <Button title="Secondary" secondary onClick={() => {}} />
+      <Button title="Primary" onClick={() => { }} />
+      <Button title="Secondary" secondary onClick={() => { }} />
       <Button title="Disabled" disabled />
-      <Button title="Destructive" destructive onClick={() => {}} />
-      <Backdrop>
+      <Button title="Destructive" destructive onClick={() => { }} />
+      <Backdrop persistent>
         <div
+          className="bg-background p-4 rounded shadow-lg"
           style={{
-            background: "white",
             padding: "1rem",
             borderRadius: "0.5rem",
           }}
         >
+          <h2>Backdrop Content</h2>
+          <p>This is some content inside the backdrop.</p>
+          <p>Click outside this box to dismiss the backdrop.</p>
           <Button
             title="Dismiss"
             onClick={() => {

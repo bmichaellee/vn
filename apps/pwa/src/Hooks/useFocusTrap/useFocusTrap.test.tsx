@@ -11,7 +11,7 @@ const Trap = () => {
   return <div ref={trapRef} tabIndex={-1} />;
 };
 
-describe("useFocusTrap", () => {
+describe("hook useFocusTrap", () => {
   it("blocks keyboard/tab focus from reaching content outside the trap", async () => {
     const user = userEvent.setup();
     const { getByText } = render(
