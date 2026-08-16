@@ -42,15 +42,13 @@ export const ProgressBar = (
 
 ### 4. Stub the test file from the AC
 
-Fill each test file with empty `it.todo` tests derived from the acceptance criteria — one per testable criterion (skip process-only criteria like sign-off requirements). No assertions yet:
+Fill each test file with title-only `it.todo` tests derived from the acceptance criteria — one per testable criterion (skip process-only criteria like sign-off requirements). No callbacks or assertions yet:
 
 ```tsx
 import { describe, it } from "vitest";
 
 describe("<ProgressBar />", () => {
-  it.todo("uses theme-based styling", () => {
-    // Test goes here
-  });
+  it.todo("uses theme-based styling");
 });
 ```
 
