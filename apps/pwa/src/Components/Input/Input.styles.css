@@ -1,0 +1,11 @@
+.input {
+  border: 1px solid var(--primary);
+}
+
+.input--error {
+  border-color: var(--error);
+}
+
+.input-error-message {
+  color: var(--error);
+}
