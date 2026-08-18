@@ -5,6 +5,7 @@ import { Version } from "@Components/Version";
 import { ThemePicker } from "@Components/ThemePicker";
 import { CodeBlock } from "@Components/CodeBlock";
 import { Button } from "@Components/Button";
+import { Input, Password } from "@Components/Input";
 import { useToast } from "@Components/Toast";
 import { Backdrop, useBackdrop } from "@Components/Backdrop";
 
@@ -63,6 +64,9 @@ export const TemporaryLayout = () => {
         <p>Theme Picker:</p>
         <ThemePicker />
       </div>
+      <Input label="Username" />
+      <Password label="Password" />
+      <Input label="Error" error="There was an error" />
       <Button title="Primary" onClick={() => {}} />
       <Button title="Secondary" secondary onClick={() => {}} />
       <Button title="Disabled" disabled />

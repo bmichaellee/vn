@@ -56,18 +56,8 @@ export const Toast = ({
       : offscreenClasses[horizontal];
 
   const classNames = [
-    "transition-all",
-    "duration-300",
-    "ease-in-out",
+    baseClasses.toast,
     `toast--${variant}`,
-    "text-foreground",
-    "rounded",
-    "flex",
-    "items-center",
-    "gap-2",
-    "px-4",
-    "py-2",
-    "shadow-lg",
     vertical === "top" ? "mt-4" : vertical === "bottom" ? "mb-4" : "",
     ...(visible ? [] : [offscreenClass]),
   ].join(" ");
@@ -87,6 +77,22 @@ export const Toast = ({
       )}
     </div>
   );
+};
+
+const baseClasses = {
+  toast: [
+    "transition-all",
+    "duration-300",
+    "ease-in-out",
+    "text-foreground",
+    "rounded",
+    "flex",
+    "items-center",
+    "gap-2",
+    "px-4",
+    "py-2",
+    "shadow-lg",
+  ].join(" "),
 };
 
 const offscreenClasses = {
