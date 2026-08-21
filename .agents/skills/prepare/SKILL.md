@@ -19,13 +19,14 @@ Bash tool calls keep whatever working directory a prior `cd` left behind — inc
 
 ### 2. Read the ticket and work out the implied files
 
-Read the issue (`gh issue view <number>`). From its acceptance criteria, work out which new files the implementation implies (following the repo's conventions — e.g. directory-per-unit, barrels, colocated tests). Do not implement anything.
+Read the issue (`gh issue view <number>`). From its acceptance criteria, work out which new files the implementation implies (following the repo's conventions — e.g. directory-per-unit, barrels, colocated tests). Include API endpoints the AC implies (e.g. "auth state is determined by calling `GET /v0/auth/session`"), not just client units. Do not implement anything.
 
 ### 3. Scaffold shells
 
 Create the non-test files as shells (test files are created in step 4):
 
 - **Barrels:** fill out normally (real exports for the unit).
+- **Endpoints:** a route shell following the repo's route conventions (prefix, docs file, wired into the routes barrel) whose handler returns a static placeholder response — no real logic.
 - **Components:** a minimal named shell with placeholder comments, e.g.:
 
 ```tsx
