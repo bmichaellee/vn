@@ -11,6 +11,7 @@ interface ButtonProps {
   className?: string;
   secondary?: boolean;
   destructive?: boolean;
+  type?: "button" | "submit";
 }
 
 export const Button = ({
@@ -22,6 +23,7 @@ export const Button = ({
   className,
   secondary,
   destructive,
+  type = "button",
 }: ButtonProps) => {
   const themeColor = useIntentColor({ secondary, destructive });
 
@@ -36,8 +38,9 @@ export const Button = ({
 
   return (
     <button
+      type={type}
       className={classNames}
-      disabled={disabled || !onClick}
+      disabled={disabled || (!onClick && type !== "submit")}
       onClick={onClick}
     >
       {icon}
@@ -47,7 +50,12 @@ export const Button = ({
 };
 
 const classes = {
-  button: ["px-4", "py-2", "rounded-md", "text-foreground", "font-medium"].join(
-    " ",
-  ),
+  button: [
+    "px-4",
+    "py-2",
+    "rounded-md",
+    "text-foreground",
+    "font-medium",
+    "text-xl",
+  ].join(" "),
 };

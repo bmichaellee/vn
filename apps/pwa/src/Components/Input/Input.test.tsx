@@ -11,6 +11,12 @@ afterEach(() => {
 });
 
 describe("<Input />", () => {
+  it("auto-focuses the input when autoFocus is true", () => {
+    const { getByRole } = render(<Input autoFocus />);
+    const input = getByRole("textbox");
+    expect(input).toHaveFocus();
+  });
+
   it("accepts classNames to extend styling", () => {
     const { getByRole } = render(<Input className="test-class" />);
     const input = getByRole("textbox");

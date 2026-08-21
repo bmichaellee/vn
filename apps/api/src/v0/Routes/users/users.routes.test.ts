@@ -23,7 +23,10 @@ describe("/users", () => {
 
       expect(response.status).toBe(StatusMap["OK"]);
       const responseBody = await response.json();
-      expect(responseBody).toEqual(fixture_testUser);
+      expect(responseBody).toEqual({
+        id: fixture_testUser.id,
+        handle: fixture_testUser.handle,
+      });
     });
 
     it("returns Not Found for a nonexistant user", async () => {

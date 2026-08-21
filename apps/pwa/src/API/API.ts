@@ -9,6 +9,15 @@ export class API {
     const response = await fetch(this.prependBaseUrl(url));
     return response.json();
   }
+
+  static async post<T = unknown>(url: string, body?: unknown): Promise<T> {
+    const response = await fetch(this.prependBaseUrl(url), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    return response.json();
+  }
 }
 
 export default API;

@@ -3,11 +3,15 @@ import { render, screen, waitFor } from "@testing-library/react";
 
 import { AuthContext, AppService } from "@Services";
 
+import { ToastProvider } from "@Components/Toast";
+
 import { Router } from "./Router";
 
 const AuthenticatedRouter = ({ session }: { session?: any }) => (
-  <AuthContext.Provider value={{ session }}>
-    <Router />
+  <AuthContext.Provider value={{ session, setSession: () => {} }}>
+    <ToastProvider>
+      <Router />
+    </ToastProvider>
   </AuthContext.Provider>
 );
 
@@ -33,8 +37,7 @@ describe("<Router />", () => {
 
     render(<AuthenticatedRouter />);
 
-    // TODO: Change assertion when the login screen is implemented, issue #1
-    expect(screen.getByText("Login Screen")).toBeInTheDocument();
+    expect(screen.getByText(AppService.APP_NAME)).toBeInTheDocument();
     expect(window.location.pathname).toBe("/login");
   });
 

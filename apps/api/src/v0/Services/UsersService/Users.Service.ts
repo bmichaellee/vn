@@ -3,15 +3,18 @@ import { eq } from "drizzle-orm";
 import { Database } from "@Database";
 import { usersSchema } from "@Schema";
 
+import { AuthService } from "../AuthService";
+
 type UserData = {
   handle: string;
+  password: string;
 };
 
 export class UsersService {
-  static async createUser(userData: UserData) {
+  static async createUser({ handle, password }: UserData) {
     const [user] = await Database.instance
       .insert(usersSchema)
-      .values(userData)
+      .values({ handle, passwordHash: AuthService.hashPassword(password) })
       .returning();
 
     return user;
