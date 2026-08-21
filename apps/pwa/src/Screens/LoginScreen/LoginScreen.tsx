@@ -5,7 +5,7 @@ import { AppService, AuthService, useAuth } from "@Services";
 
 import { Input, Password } from "@Components/Input";
 import { Button } from "@Components/Button";
-import { useToast } from "@Components/Toast";
+import { ToastProps, useToast } from "@Components/Toast";
 
 import type { InputChangeEvent } from "@Components/Input";
 
@@ -23,24 +23,23 @@ export const LoginScreen = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
+    const toast: ToastProps = {
+      vertical: "top",
+      horizontal: "center",
+    };
     AuthService.login(handle, password)
-      .then((session) => {
+      .then(({ message, session }) => {
         setSession(session);
-        triggerToast({
-          children: AuthService.LOGIN_SUCCESSFUL,
-          variant: "success",
-          vertical: "top",
-          horizontal: "center",
-        });
+        toast.children = message;
+        toast.variant = "success";
         navigate("/");
       })
-      .catch((error) => {
-        triggerToast({
-          children: error.message,
-          variant: "error",
-          vertical: "top",
-          horizontal: "center",
-        });
+      .catch(({ message }) => {
+        toast.children = message;
+        toast.variant = "error";
+      })
+      .finally(() => {
+        triggerToast(toast);
       });
   };
 

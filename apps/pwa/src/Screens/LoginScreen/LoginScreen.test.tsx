@@ -63,9 +63,10 @@ describe("<LoginScreen />", () => {
   });
 
   it("triggers a toast and redirects to '/' when login succeeds", async () => {
-    const mock_login = vi
-      .spyOn(AuthService, "login")
-      .mockResolvedValue(fixture_session);
+    const mock_login = vi.spyOn(AuthService, "login").mockResolvedValue({
+      message: AuthService.LOGIN_SUCCESSFUL,
+      session: fixture_session,
+    });
 
     window.history.pushState({}, "", "/login");
 

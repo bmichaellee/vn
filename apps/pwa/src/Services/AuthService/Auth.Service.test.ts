@@ -23,12 +23,15 @@ describe("class AuthService", () => {
   describe("static login", () => {
     it("logs in by calling POST /v0/auth/login", async () => {
       mock_post.mockResolvedValueOnce({ session: fixture_session });
-      const session = await AuthService.login("testuser", "testpassword");
+      const response = await AuthService.login("testuser", "testpassword");
       expect(mock_post).toHaveBeenCalledWith("auth/login", {
         handle: "testuser",
         password: "testpassword",
       });
-      expect(session).toEqual(fixture_session);
+      expect(response).toEqual({
+        message: AuthService.LOGIN_SUCCESSFUL,
+        session: fixture_session,
+      });
     });
 
     it("throws a service-unavailable error when the API is unreachable", async () => {

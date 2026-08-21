@@ -31,10 +31,13 @@ export class AuthService {
     });
 
     if (session) {
-      return session;
+      return {
+        message: AuthService.LOGIN_SUCCESSFUL,
+        session,
+      };
     }
 
-    throw new Error(this.INVALID_CREDENTIALS);
+    throw new Error(AuthService.INVALID_CREDENTIALS);
   }
 
   static async getSession() {

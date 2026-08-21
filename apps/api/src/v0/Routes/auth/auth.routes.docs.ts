@@ -31,6 +31,7 @@ export const loginDocs = {
 };
 
 export const getSessionDocs = {
+  cookie: t.Cookie({ session: t.Optional(t.String()) }),
   response: {
     [StatusMap["OK"]]: t.Object({
       session: t.Nullable(sessionResponse),

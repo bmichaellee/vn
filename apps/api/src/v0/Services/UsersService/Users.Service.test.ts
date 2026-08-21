@@ -30,7 +30,10 @@ describe("class UsersService", () => {
     it("creates a new user in the database with a random nanoid", async () => {
       mock_returning.mockResolvedValueOnce([fixture_testUser]);
 
-      const user = await UsersService.createUser({ handle: "ifrit" });
+      const user = await UsersService.createUser({
+        handle: "ifrit",
+        password: "omnislash",
+      });
 
       expect(mock_insert).toHaveBeenCalled();
       expect(user).toEqual(fixture_testUser);
