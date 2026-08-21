@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { AuthService } from "@Services";
+import { AuthService, fixture_session } from "@Services";
 
 import { BrowserRouter } from "react-router";
 
@@ -65,7 +65,7 @@ describe("<LoginScreen />", () => {
   it("triggers a toast and redirects to '/' when login succeeds", async () => {
     const mock_login = vi
       .spyOn(AuthService, "login")
-      .mockResolvedValue({ id: "session-1" });
+      .mockResolvedValue(fixture_session);
 
     window.history.pushState({}, "", "/login");
 

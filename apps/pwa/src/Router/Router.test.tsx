@@ -37,7 +37,6 @@ describe("<Router />", () => {
 
     render(<AuthenticatedRouter />);
 
-    // TODO: Change assertion when the login screen is implemented, issue #1
     expect(screen.getByText(AppService.APP_NAME)).toBeInTheDocument();
     expect(window.location.pathname).toBe("/login");
   });

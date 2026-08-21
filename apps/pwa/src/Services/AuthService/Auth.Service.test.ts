@@ -1,8 +1,12 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 
 import { AuthService } from "./Auth.Service";
+import { fixture_session } from "./Auth.fixtures";
 
-const { mock_get, mock_post } = vi.hoisted(() => ({ mock_get: vi.fn(), mock_post: vi.fn() }));
+const { mock_get, mock_post } = vi.hoisted(() => ({
+  mock_get: vi.fn(),
+  mock_post: vi.fn(),
+}));
 
 vi.mock("@API", () => ({
   API: {
@@ -11,15 +15,11 @@ vi.mock("@API", () => ({
   },
 }));
 
-// We don't know what the session looks like yet, so just use an empty object for now
-const fixture_session = {};
-
 afterEach(() => {
   vi.clearAllMocks();
 });
 
 describe("class AuthService", () => {
-
   describe("static login", () => {
     it("logs in by calling POST /v0/auth/login", async () => {
       mock_post.mockResolvedValueOnce({ session: fixture_session });

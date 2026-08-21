@@ -2,6 +2,15 @@ import { StatusMap, t } from "elysia";
 
 const authTags = ["Auth"];
 
+const sessionResponse = t.Object({
+  id: t.String(),
+  expiresAt: t.String(),
+  user: t.Object({
+    id: t.String(),
+    handle: t.String(),
+  }),
+});
+
 export const loginDocs = {
   body: t.Object({
     handle: t.String(),
@@ -9,10 +18,7 @@ export const loginDocs = {
   }),
   response: {
     [StatusMap["OK"]]: t.Object({
-      user: t.Object({
-        id: t.String(),
-        handle: t.String(),
-      }),
+      session: sessionResponse,
     }),
     [StatusMap["Unauthorized"]]: t.Object({ error: t.String() }),
   },
@@ -27,7 +33,7 @@ export const loginDocs = {
 export const getSessionDocs = {
   response: {
     [StatusMap["OK"]]: t.Object({
-      session: t.Nullable(t.Unknown()),
+      session: t.Nullable(sessionResponse),
     }),
   },
   detail: {
