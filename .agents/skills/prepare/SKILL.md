@@ -21,6 +21,8 @@ Bash tool calls keep whatever working directory a prior `cd` left behind — inc
 
 Read the issue (`gh issue view <number>`). From its acceptance criteria, work out which new files the implementation implies (following the repo's conventions — e.g. directory-per-unit, barrels, colocated tests). Include API endpoints the AC implies (e.g. "auth state is determined by calling `GET /v0/auth/session`"), not just client units. Do not implement anything.
 
+Some (or most) of the implied units may already exist as shells from earlier issues. Check before creating anything: for units that exist, extend in place — add the new method/route shell to the existing file and new `it.todo`s to the existing test file — rather than creating parallel files or re-scaffolding. The scaffold for an issue is the delta, not the full unit list.
+
 ### 3. Scaffold shells
 
 Create the non-test files as shells (test files are created in step 4):
