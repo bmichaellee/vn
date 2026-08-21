@@ -8,27 +8,46 @@ import {
 
 import { AuthService } from "./Auth.Service";
 
-const { mock_where, mock_select, mock_insert, mock_returning } = vi.hoisted(
-  () => {
-    const mock_where = vi.fn();
-    const mock_innerJoin = vi.fn(() => ({ where: mock_where }));
-    const mock_from = vi.fn(() => ({
-      where: mock_where,
-      innerJoin: mock_innerJoin,
-    }));
-    const mock_select = vi.fn(() => ({ from: mock_from }));
+const {
+  mock_where,
+  mock_select,
+  mock_insert,
+  mock_returning,
+  mock_delete,
+  mock_deleteWhere,
+} = vi.hoisted(() => {
+  const mock_where = vi.fn();
+  const mock_innerJoin = vi.fn(() => ({ where: mock_where }));
+  const mock_from = vi.fn(() => ({
+    where: mock_where,
+    innerJoin: mock_innerJoin,
+  }));
+  const mock_select = vi.fn(() => ({ from: mock_from }));
 
-    const mock_returning = vi.fn();
-    const mock_values = vi.fn(() => ({ returning: mock_returning }));
-    const mock_insert = vi.fn(() => ({ values: mock_values }));
+  const mock_returning = vi.fn();
+  const mock_values = vi.fn(() => ({ returning: mock_returning }));
+  const mock_insert = vi.fn(() => ({ values: mock_values }));
 
-    return { mock_where, mock_select, mock_insert, mock_returning };
-  },
-);
+  const mock_deleteWhere = vi.fn();
+  const mock_delete = vi.fn(() => ({ where: mock_deleteWhere }));
+
+  return {
+    mock_where,
+    mock_select,
+    mock_insert,
+    mock_returning,
+    mock_delete,
+    mock_deleteWhere,
+  };
+});
 
 vi.mock("@Database", () => ({
   Database: {
-    instance: { select: mock_select, insert: mock_insert },
+    instance: {
+      select: mock_select,
+      insert: mock_insert,
+      delete: mock_delete,
+    },
   },
 }));
 
@@ -77,6 +96,22 @@ describe("class AuthService", () => {
 
       expect(session).toBeNull();
       expect(mock_insert).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("static logout", () => {
+    it("deletes the session for the given session id", async () => {
+      mock_deleteWhere.mockResolvedValueOnce(undefined);
+
+      await AuthService.logout(fixture_testSession.id);
+
+      expect(mock_delete).toHaveBeenCalled();
+    });
+
+    it("does nothing without a session id", async () => {
+      await AuthService.logout();
+
+      expect(mock_delete).not.toHaveBeenCalled();
     });
   });
 

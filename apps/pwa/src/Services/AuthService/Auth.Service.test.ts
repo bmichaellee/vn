@@ -80,6 +80,16 @@ describe("class AuthService", () => {
     });
   });
 
+  describe("static logout", () => {
+    it("logs out by calling POST /v0/auth/logout", async () => {
+      mock_post.mockResolvedValueOnce(null);
+
+      await AuthService.logout();
+
+      expect(mock_post).toHaveBeenCalledWith("auth/logout");
+    });
+  });
+
   describe("static getSession", () => {
     it("determines auth state by calling GET /v0/auth/session", async () => {
       mock_get.mockResolvedValueOnce({ session: fixture_session });

@@ -57,6 +57,16 @@ export class AuthService {
     };
   }
 
+  static async logout(sessionId?: string) {
+    if (!sessionId) {
+      return;
+    }
+
+    await Database.instance
+      .delete(sessionsSchema)
+      .where(eq(sessionsSchema.id, sessionId));
+  }
+
   static async getSession(sessionId?: string) {
     if (!sessionId) {
       return null;

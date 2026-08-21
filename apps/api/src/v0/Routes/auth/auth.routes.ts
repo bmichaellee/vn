@@ -2,7 +2,7 @@ import Elysia from "elysia";
 
 import { AuthService } from "@Services";
 
-import { getSessionDocs, loginDocs } from "./auth.routes.docs";
+import { getSessionDocs, loginDocs, logoutDocs } from "./auth.routes.docs";
 
 import type { Session } from "@Services";
 
@@ -34,6 +34,16 @@ export const authRoutes = new Elysia({
       return { session: serializeSession(session) };
     },
     loginDocs,
+  )
+  .post(
+    "/logout",
+    async ({ cookie: { session: sessionCookie } }) => {
+      await AuthService.logout(sessionCookie.value);
+      sessionCookie.remove();
+
+      return {};
+    },
+    logoutDocs,
   )
   .get(
     "/session",

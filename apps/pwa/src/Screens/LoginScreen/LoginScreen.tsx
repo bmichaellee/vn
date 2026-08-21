@@ -7,6 +7,7 @@ import { Input, Password } from "@Components/Input";
 import { Button } from "@Components/Button";
 import { ToastProps, useToast } from "@Components/Toast";
 
+import type { SubmitEvent } from "react";
 import type { InputChangeEvent } from "@Components/Input";
 
 export const LoginScreen = () => {
@@ -22,7 +23,9 @@ export const LoginScreen = () => {
   const { setSession } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleLogin = (event: SubmitEvent) => {
+    event.preventDefault();
+
     const toast: ToastProps = {
       vertical: "top",
       horizontal: "center",
@@ -46,7 +49,7 @@ export const LoginScreen = () => {
   const loginDisabled = !handle || !password;
 
   return (
-    <div className={classes.container}>
+    <form className={classes.container} onSubmit={handleLogin}>
       <span className={classes.appName}>{AppService.APP_NAME}</span>
       <Input
         autoFocus
@@ -59,10 +62,10 @@ export const LoginScreen = () => {
         value={password}
         onChange={handleChangePassword}
       />
-      <Button disabled={loginDisabled} onClick={handleLogin}>
+      <Button disabled={loginDisabled} type="submit">
         Log In
       </Button>
-    </div>
+    </form>
   );
 };
 

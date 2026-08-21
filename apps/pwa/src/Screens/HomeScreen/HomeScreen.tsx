@@ -1,11 +1,23 @@
-import { useAuth } from "@Services";
+import { useNavigate } from "react-router";
+
+import { Button } from "@Components/Button";
+import { AuthService, useAuth } from "@Services";
 
 export const HomeScreen = () => {
-  const { session } = useAuth();
+  const { session, setSession } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    AuthService.logout().then(() => {
+      setSession(null);
+      navigate("/");
+    });
+  };
 
   return (
     <div className={classes.container}>
       {`Welcome, ${session?.user?.handle}`}
+      <Button onClick={handleLogout}>Log Out</Button>
     </div>
   );
 };
@@ -13,6 +25,8 @@ export const HomeScreen = () => {
 const classes = {
   container: [
     "flex",
+    "flex-col",
+    "gap-4",
     "h-screen",
     "w-screen",
     "items-center",

@@ -83,4 +83,23 @@ describe("<LoginScreen />", () => {
     );
     expect(window.location.pathname).toBe("/");
   });
+
+  it("triggers login on Enter key press in handle or password fields", async () => {
+    const mock_login = vi.spyOn(AuthService, "login").mockResolvedValue({
+      message: AuthService.LOGIN_SUCCESSFUL,
+      session: fixture_session,
+    });
+
+    const user = userEvent.setup();
+    renderLoginScreen();
+
+    await user.type(screen.getByPlaceholderText("Handle"), "cloud");
+    await user.type(screen.getByPlaceholderText("Password"), "omnislash");
+
+    await user.type(screen.getByPlaceholderText("Handle"), "{enter}");
+    expect(mock_login).toHaveBeenCalledTimes(1);
+
+    await user.type(screen.getByPlaceholderText("Password"), "{enter}");
+    expect(mock_login).toHaveBeenCalledTimes(2);
+  });
 });

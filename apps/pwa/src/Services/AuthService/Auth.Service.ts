@@ -40,6 +40,16 @@ export class AuthService {
     throw new Error(AuthService.INVALID_CREDENTIALS);
   }
 
+  static async logout() {
+    const response = await API.post("auth/logout").catch((error) => {
+      throw error instanceof TypeError
+        ? new Error(AuthService.SERVICE_UNAVAILABLE)
+        : error;
+    });
+
+    return response;
+  }
+
   static async getSession() {
     const { session } = await API.get<{ session: Session | null }>(
       "auth/session",

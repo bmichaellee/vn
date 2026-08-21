@@ -30,6 +30,19 @@ export const loginDocs = {
   },
 };
 
+export const logoutDocs = {
+  cookie: t.Cookie({ session: t.Optional(t.String()) }),
+  response: {
+    [StatusMap["OK"]]: t.Object({}),
+  },
+  detail: {
+    summary: "Log out",
+    description:
+      "Deletes the session for the request's session cookie and clears the cookie.",
+    tags: authTags,
+  },
+};
+
 export const getSessionDocs = {
   cookie: t.Cookie({ session: t.Optional(t.String()) }),
   response: {

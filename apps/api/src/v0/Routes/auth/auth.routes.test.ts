@@ -5,14 +5,16 @@ import { fixture_testSession, fixture_testUser } from "@Schema";
 
 import { authRoutes } from "./auth.routes";
 
-const { mock_login, mock_getSession } = vi.hoisted(() => ({
+const { mock_login, mock_logout, mock_getSession } = vi.hoisted(() => ({
   mock_login: vi.fn(),
+  mock_logout: vi.fn(),
   mock_getSession: vi.fn(),
 }));
 
 vi.mock("@Services", () => ({
   AuthService: {
     login: mock_login,
+    logout: mock_logout,
     getSession: mock_getSession,
   },
 }));
@@ -84,6 +86,26 @@ describe("/auth", () => {
 
       expect(wrongPassword.status).toBe(wrongHandle.status);
       expect(await wrongPassword.json()).toEqual(await wrongHandle.json());
+    });
+  });
+
+  describe("POST /auth/logout", () => {
+    it("deletes the session and clears the session cookie", async () => {
+      mock_logout.mockResolvedValueOnce(undefined);
+
+      const response = await authRoutes.handle(
+        new Request("http://localhost/auth/logout", {
+          method: "POST",
+          headers: { Cookie: `session=${fixture_session.id}` },
+        }),
+      );
+
+      expect(mock_logout).toHaveBeenCalledWith(fixture_session.id);
+      expect(response.status).toBe(StatusMap["OK"]);
+
+      const setCookie = response.headers.get("set-cookie");
+      expect(setCookie).toContain("session=");
+      expect(setCookie).toMatch(/expires=Thu, 01 Jan 1970/i);
     });
   });
 
