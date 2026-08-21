@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { AppService } from "@Services";
+import { AppService, ThemeService, useTheme } from "@Services";
 
 import { Version } from "@Components/Version";
-import { ThemePicker } from "@Components/ThemePicker";
+import { Dropdown } from "@Components/Dropdown";
 import { CodeBlock } from "@Components/CodeBlock";
 import { Button } from "@Components/Button";
 import { Input, Password } from "@Components/Input";
@@ -23,6 +23,9 @@ export const TemporaryLayout = () => {
         setHealthCheck(`Error: ${error.message}`);
       });
   }, []);
+
+  const themes = Object.values(ThemeService.availableThemes);
+  const { theme, setTheme } = useTheme();
 
   const { setActive } = useBackdrop();
   const { triggerToast } = useToast();
@@ -61,8 +64,12 @@ export const TemporaryLayout = () => {
         <CodeBlock>{healthCheck}</CodeBlock>
       </div>
       <div>
-        <p>Theme Picker:</p>
-        <ThemePicker />
+        <Dropdown
+          label="Theme Picker"
+          value={theme?.value}
+          onChange={setTheme}
+          options={themes.map(({ name, value }) => ({ value, label: name }))}
+        />
       </div>
       <Input label="Username" />
       <Password label="Password" />
