@@ -17,13 +17,13 @@ In the main worktree, fetch and cut a topic branch from the repo's up-to-date de
 
 Bash tool calls keep whatever working directory a prior `cd` left behind — including a `cd` used just to poke around (e.g. `cd some/dir && cat *`). Before creating files (step 2 onward), confirm you're operating from the repo root: use absolute paths, or run a plain `pwd`-checked command first. Otherwise `mkdir -p`/file writes can land nested inside whatever directory you last `cd`'d into, silently duplicating the scaffold.
 
-### 2. Read the ticket and create the implied files
+### 2. Read the ticket and work out the implied files
 
-Read the issue (`gh issue view <number>`). From its acceptance criteria, work out which new files the implementation implies (following the repo's conventions — e.g. directory-per-unit, barrels, colocated tests) and create them **empty**. Do not write any content or implement anything.
+Read the issue (`gh issue view <number>`). From its acceptance criteria, work out which new files the implementation implies (following the repo's conventions — e.g. directory-per-unit, barrels, colocated tests). Do not implement anything.
 
 ### 3. Scaffold shells
 
-Fill the new files with shells — except test files, which stay empty for now:
+Create the non-test files as shells (test files are created in step 4):
 
 - **Barrels:** fill out normally (real exports for the unit).
 - **Components:** a minimal named shell with placeholder comments, e.g.:
@@ -40,9 +40,9 @@ export const ProgressBar = (
 ) => <div>Progress Bar</div>;
 ```
 
-### 4. Stub the test file from the AC
+### 4. Create the test file(s), stubbed from the AC
 
-Fill each test file with title-only `it.todo` tests derived from the acceptance criteria — one per testable criterion (skip process-only criteria like sign-off requirements). No callbacks or assertions yet:
+Create each test file with title-only `it.todo` tests derived from the acceptance criteria — one per testable criterion (skip process-only criteria like sign-off requirements). No callbacks or assertions yet:
 
 ```tsx
 import { describe, it } from "vitest";
