@@ -8,7 +8,7 @@ import { ToastProvider } from "@Components/Toast";
 import { Router } from "./Router";
 
 const AuthenticatedRouter = ({ session }: { session?: any }) => (
-  <AuthContext.Provider value={{ session }}>
+  <AuthContext.Provider value={{ session, setSession: () => {} }}>
     <ToastProvider>
       <Router />
     </ToastProvider>

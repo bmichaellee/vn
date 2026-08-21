@@ -92,6 +92,6 @@ const baseClasses = {
     "gap-1",
     "text-sm",
     "mt-1",
-    "ps-2"
+    "ps-2",
   ].join(" "),
 };

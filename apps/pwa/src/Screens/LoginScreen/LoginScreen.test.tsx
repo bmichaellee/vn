@@ -77,7 +77,9 @@ describe("<LoginScreen />", () => {
     await user.click(screen.getByRole("button", { name: "Log In" }));
 
     expect(mock_login).toHaveBeenCalledWith("cloud", "omnislash");
-    expect(await screen.findByRole("alert")).toBeInTheDocument();
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      AuthService.LOGIN_SUCCESSFUL,
+    );
     expect(window.location.pathname).toBe("/");
   });
 });

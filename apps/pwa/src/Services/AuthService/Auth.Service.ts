@@ -12,7 +12,10 @@ export interface Session {
 }
 
 export class AuthService {
+  static LOGIN_SUCCESSFUL = "Login successful";
   static INVALID_CREDENTIALS = "Invalid handle or password";
+  static SERVICE_UNAVAILABLE =
+    "Service is unavailable. Please try again later.";
 
   static async login(_handle: string, _password: string) {
     const { session } = await API.post<{ session: Session | null }>(
@@ -21,7 +24,11 @@ export class AuthService {
         handle: _handle,
         password: _password,
       },
-    );
+    ).catch((error) => {
+      throw error instanceof TypeError
+        ? new Error(AuthService.SERVICE_UNAVAILABLE)
+        : error;
+    });
 
     if (session) {
       return session;

@@ -2,31 +2,15 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "jsx": "react-jsx",
-    "types": [
-      "vite/client"
-    ],
+    "types": ["vite/client"],
     "paths": {
-      "@App": [
-        "./src/App/App.tsx"
-      ],
-      "@Components/*": [
-        "./src/Components/*"
-      ],
-      "@Hooks": [
-        "./src/Hooks"
-      ],
-      "@Services": [
-        "./src/Services"
-      ],
-      "@Screens": [
-        "./src/Screens"
-      ],
-      "@API": [
-        "./src/API"
-      ],
-      "@Router": [
-        "./src/Router"
-      ],
+      "@App": ["./src/App/App.tsx"],
+      "@Components/*": ["./src/Components/*"],
+      "@Hooks": ["./src/Hooks"],
+      "@Services": ["./src/Services"],
+      "@Screens": ["./src/Screens"],
+      "@API": ["./src/API"],
+      "@Router": ["./src/Router"]
     }
   }
 }

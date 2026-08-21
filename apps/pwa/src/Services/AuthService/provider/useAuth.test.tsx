@@ -7,6 +7,7 @@ describe("useAuth", () => {
   it("returns a null session outside an AuthProvider", () => {
     const { result } = renderHook(() => useAuth());
 
-    expect(result.current).toEqual({ session: null });
+    expect(result.current.session).toBeNull();
+    expect(result.current.setSession).toBeInstanceOf(Function);
   });
 });

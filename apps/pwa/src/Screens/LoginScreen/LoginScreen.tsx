@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import { AppService, AuthService } from "@Services";
+import { AppService, AuthService, useAuth } from "@Services";
 
 import { Input, Password } from "@Components/Input";
 import { Button } from "@Components/Button";
@@ -10,21 +10,24 @@ import { useToast } from "@Components/Toast";
 import type { InputChangeEvent } from "@Components/Input";
 
 export const LoginScreen = () => {
-
   const [handle, setHandle] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleChangeHandle = ({ target: { value } }: InputChangeEvent) => setHandle(value);
-  const handleChangePassword = ({ target: { value } }: InputChangeEvent) => setPassword(value);
+  const handleChangeHandle = ({ target: { value } }: InputChangeEvent) =>
+    setHandle(value);
+  const handleChangePassword = ({ target: { value } }: InputChangeEvent) =>
+    setPassword(value);
 
   const { triggerToast } = useToast();
+  const { setSession } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = () => {
     AuthService.login(handle, password)
-      .then(() => {
+      .then((session) => {
+        setSession(session);
         triggerToast({
-          children: "Login successful",
+          children: AuthService.LOGIN_SUCCESSFUL,
           variant: "success",
           vertical: "top",
           horizontal: "center",
@@ -46,9 +49,20 @@ export const LoginScreen = () => {
   return (
     <div className={classes.container}>
       <span className={classes.appName}>{AppService.APP_NAME}</span>
-      <Input autoFocus placeholder="Handle" value={handle} onChange={handleChangeHandle} />
-      <Password placeholder="Password" value={password} onChange={handleChangePassword} />
-      <Button disabled={loginDisabled} onClick={handleLogin}>Log In</Button>
+      <Input
+        autoFocus
+        placeholder="Handle"
+        value={handle}
+        onChange={handleChangeHandle}
+      />
+      <Password
+        placeholder="Password"
+        value={password}
+        onChange={handleChangePassword}
+      />
+      <Button disabled={loginDisabled} onClick={handleLogin}>
+        Log In
+      </Button>
     </div>
   );
 };

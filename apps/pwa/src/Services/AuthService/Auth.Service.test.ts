@@ -31,6 +31,36 @@ describe("class AuthService", () => {
       expect(session).toEqual(fixture_session);
     });
 
+    it("throws a service-unavailable error when the API is unreachable", async () => {
+      mock_post.mockRejectedValueOnce(new TypeError("Failed to fetch"));
+
+      let error: Error | undefined;
+
+      try {
+        await AuthService.login("testuser", "testpassword");
+      } catch (err) {
+        error = err as Error;
+      }
+
+      expect(error).toBeInstanceOf(Error);
+      expect(error?.message).toBe(AuthService.SERVICE_UNAVAILABLE);
+    });
+
+    it("rethrows non-network errors from the API untouched", async () => {
+      const fixture_error = new Error("teapot");
+      mock_post.mockRejectedValueOnce(fixture_error);
+
+      let error: Error | undefined;
+
+      try {
+        await AuthService.login("testuser", "testpassword");
+      } catch (err) {
+        error = err as Error;
+      }
+
+      expect(error).toBe(fixture_error);
+    });
+
     it("returns a nonspecific error when login fails", async () => {
       mock_post.mockResolvedValueOnce({ session: null });
 
