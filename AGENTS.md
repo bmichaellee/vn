@@ -9,6 +9,11 @@ use Galaxy S25 Ultra dimensions as a stand-in: width 384, height 824,
 deviceScaleFactor 3.5, mobile true, userAgent set to a Samsung Android Chrome
 UA string.
 
+## API calls
+
+API calls are always made through a service (`Services/`), never raw `fetch`
+in components or hooks.
+
 ## Testing
 
 Prefix mock functions/values with `mock_` (snake_case, even in an otherwise
