@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 
-import { AuthContext } from "@Services";
+import { AuthContext, AppService } from "@Services";
 
 import { Router } from "./Router";
 
@@ -18,7 +18,7 @@ describe("<Router />", () => {
     render(<AuthenticatedRouter />);
 
     expect(window.location.pathname).toBe("/");
-    expect(screen.getByText("Splash Screen")).toBeInTheDocument();
+    expect(screen.getByText(AppService.TAGLINE)).toBeInTheDocument();
   });
 
   it("allows authenticated visits to protected routes", () => {
@@ -57,6 +57,6 @@ describe("<Router />", () => {
     render(<AuthenticatedRouter />);
 
     expect(window.location.pathname).toBe("/login");
-    expect(screen.queryByText("Splash Screen")).not.toBeInTheDocument();
+    expect(screen.queryByText(AppService.TAGLINE)).not.toBeInTheDocument();
   });
 });
