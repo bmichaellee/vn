@@ -18,9 +18,7 @@ vi.mock("../Auth.Service", () => ({
 const AuthConsumer = () => {
   mock_getSession.mockResolvedValueOnce(fixture_sessionResponse);
   const auth = useAuth();
-  return (
-    <span data-testid="auth-state">{JSON.stringify(auth?.session)}</span>
-  );
+  return <span data-testid="auth-state">{JSON.stringify(auth?.session)}</span>;
 };
 
 describe("<AuthProvider />", () => {
@@ -33,6 +31,8 @@ describe("<AuthProvider />", () => {
       </AuthProvider>,
     );
 
-    expect(await screen.findByTestId("auth-state")).toHaveTextContent(JSON.stringify(fixture_sessionResponse));
+    expect(await screen.findByTestId("auth-state")).toHaveTextContent(
+      JSON.stringify(fixture_sessionResponse),
+    );
   });
 });

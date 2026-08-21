@@ -3,6 +3,9 @@ import { API } from "@API";
 import type { HealthResponse } from "@API";
 
 export class AppService {
+  static TAGLINE = "Generic PWA App";
+  static LOGIN_BUTTON_TEXT = "Log In";
+
   static async getHealth(): Promise<HealthResponse> {
     return API.get<HealthResponse>("health");
   }

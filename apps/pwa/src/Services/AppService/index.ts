@@ -1,1 +1,1 @@
-export { AppService } from "./App.Service";
+export * from "./App.Service";
