@@ -1,1 +1,1 @@
-export { Input, Password } from "./Input";
+export * from "./Input";

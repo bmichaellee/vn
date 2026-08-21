@@ -15,6 +15,14 @@ const requestSession = () =>
   authRoutes.handle(new Request("http://localhost/auth/session"));
 
 describe("/auth", () => {
+  describe("POST /auth/login", () => {
+    it.todo(
+      "creates a session and sets an httpOnly cookie for correct credentials - issue #1",
+    );
+    it.todo("returns 401 for wrong credentials - issue #1");
+    it.todo("does not distinguish wrong handle from wrong password - issue #1");
+  });
+
   describe("GET /auth/session", () => {
     it.todo(
       "reports authenticated when the request has a valid session - issue #1",

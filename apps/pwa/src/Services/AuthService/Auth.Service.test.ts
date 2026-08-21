@@ -1,27 +1,60 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 
 import { AuthService } from "./Auth.Service";
 
-const { mock_get } = vi.hoisted(() => ({ mock_get: vi.fn() }));
+const { mock_get, mock_post } = vi.hoisted(() => ({ mock_get: vi.fn(), mock_post: vi.fn() }));
 
 vi.mock("@API", () => ({
   API: {
     get: mock_get,
+    post: mock_post,
   },
 }));
 
 // We don't know what the session looks like yet, so just use an empty object for now
-const mock_session = {};
+const fixture_session = {};
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
 describe("class AuthService", () => {
+
+  describe("static login", () => {
+    it("logs in by calling POST /v0/auth/login", async () => {
+      mock_post.mockResolvedValueOnce({ session: fixture_session });
+      const session = await AuthService.login("testuser", "testpassword");
+      expect(mock_post).toHaveBeenCalledWith("auth/login", {
+        handle: "testuser",
+        password: "testpassword",
+      });
+      expect(session).toEqual(fixture_session);
+    });
+
+    it("returns a nonspecific error when login fails", async () => {
+      mock_post.mockResolvedValueOnce({ session: null });
+
+      let error: Error | undefined;
+
+      try {
+        await AuthService.login("testuser", "testpassword");
+      } catch (err) {
+        error = err as Error;
+      }
+
+      expect(error).toBeInstanceOf(Error);
+      expect(error?.message).toBe(AuthService.INVALID_CREDENTIALS);
+    });
+  });
+
   describe("static getSession", () => {
     it("determines auth state by calling GET /v0/auth/session", async () => {
-      mock_get.mockResolvedValueOnce({ session: mock_session });
+      mock_get.mockResolvedValueOnce({ session: fixture_session });
 
       const session = await AuthService.getSession();
 
       expect(mock_get).toHaveBeenCalledWith("auth/session");
-      expect(session).toEqual(mock_session);
+      expect(session).toEqual(fixture_session);
     });
 
     it("returns null when unauthenticated", async () => {
