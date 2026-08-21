@@ -42,7 +42,7 @@ export const ProgressBar = (
 
 ### 4. Create the test file(s), stubbed from the AC
 
-Create each test file with title-only `it.todo` tests derived from the acceptance criteria — one per testable criterion (skip process-only criteria like sign-off requirements). No callbacks or assertions yet:
+Create each test file with title-only `it.todo` tests derived from the acceptance criteria — one per mechanically testable criterion. Skip criteria a unit test can't meaningfully assert: process-only ones (e.g. sign-off requirements) and architectural constraints (e.g. "no X logic lives in the client" — proving a negative about implementation internals is a code-review concern, not a test). No callbacks or assertions yet:
 
 ```tsx
 import { describe, it } from "vitest";
