@@ -11,7 +11,28 @@ const Blocker = ({ children }: { children?: React.ReactNode }) => {
   return <div ref={blockerRef}>{children}</div>;
 };
 
+const DetachedBlocker = () => {
+  const blockerRef = useRef<HTMLDivElement>(null);
+  useBlockOutsideClicks(blockerRef);
+  return null;
+};
+
 describe("hook useBlockOutsideClicks", () => {
+  it("does nothing when the ref is not attached", async () => {
+    const user = userEvent.setup();
+    const mock_onClick = vi.fn();
+    const { getByText } = render(
+      <>
+        <button onClick={mock_onClick}>Outside</button>
+        <DetachedBlocker />
+      </>,
+    );
+
+    await user.click(getByText("Outside"));
+
+    expect(mock_onClick).toHaveBeenCalled();
+  });
+
   it("blocks clicks on content outside the container", async () => {
     const user = userEvent.setup();
     const mock_onClick = vi.fn();

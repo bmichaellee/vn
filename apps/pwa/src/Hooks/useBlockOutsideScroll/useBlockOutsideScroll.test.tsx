@@ -15,7 +15,26 @@ const scroll = (target: Element) =>
     new WheelEvent("wheel", { bubbles: true, cancelable: true }),
   );
 
+const DetachedBlocker = () => {
+  const blockerRef = useRef<HTMLDivElement>(null);
+  useBlockOutsideScroll(blockerRef);
+  return null;
+};
+
 describe("hook useBlockOutsideScroll", () => {
+  it("does nothing when the ref is not attached", () => {
+    const { getByText } = render(
+      <>
+        <p>Outside</p>
+        <DetachedBlocker />
+      </>,
+    );
+
+    const allowed = scroll(getByText("Outside"));
+
+    expect(allowed).toBe(true);
+  });
+
   it("blocks scrolling of content outside the container", () => {
     const { getByText } = render(
       <>

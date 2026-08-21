@@ -42,6 +42,7 @@ export default defineConfig({
         "apps/api/src/**/Schema/**",
         "apps/api/src/spa/*",
         "apps/pwa/src/main.tsx",
+        "apps/pwa/src/App/App.tsx",
       ],
     },
   },
