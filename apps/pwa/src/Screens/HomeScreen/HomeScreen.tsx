@@ -10,7 +10,7 @@ export const HomeScreen = () => {
   const handleLogout = () => {
     AuthService.logout().then(() => {
       setSession(null);
-      navigate("/");
+      navigate("/", { replace: true });
     });
   };
 
