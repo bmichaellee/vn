@@ -1,1 +1,1 @@
-export { Database } from "./Database";
+export { Database, PGLITE_DIR } from "./Database";

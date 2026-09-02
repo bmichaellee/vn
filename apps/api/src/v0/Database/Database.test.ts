@@ -10,6 +10,12 @@ vi.mock("drizzle-orm/postgres-js", () => ({
   }),
 }));
 
+vi.mock("drizzle-orm/pglite", () => ({
+  drizzle: vi.fn().mockReturnValue({
+    execute: mock_execute,
+  }),
+}));
+
 vi.mock("postgres", () => ({
   default: vi.fn().mockReturnValue({
     execute: mock_execute,
@@ -37,14 +43,20 @@ describe("class Database", () => {
       expect(status).toBe(false);
     });
 
-    it("throws when DATABASE_URL is not set", async () => {
+    it("falls back to the embedded database when DATABASE_URL is not set", async () => {
       vi.stubEnv("DATABASE_URL", "");
       vi.resetModules();
+      mock_execute.mockResolvedValueOnce({});
 
-      const { Database: DatabaseWithoutUrl } = await import("@Database");
+      const { Database: DatabaseEmbedded } = await import("@Database");
+      const { drizzle: mock_drizzlePglite } =
+        await import("drizzle-orm/pglite");
 
-      await expect(DatabaseWithoutUrl.getConnectionStatus()).rejects.toThrow(
-        "DATABASE_URL not set",
+      const status = await DatabaseEmbedded.getConnectionStatus();
+      expect(status).toBe(true);
+      expect(mock_drizzlePglite).toHaveBeenCalledWith(
+        expect.stringContaining(".data"),
+        expect.anything(),
       );
     });
   });
