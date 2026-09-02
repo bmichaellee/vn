@@ -17,6 +17,6 @@ If you run into any snags while using this skill, offer to improve the skill onc
 
 ## Procedure
 
-1. Read `.agents/stories/story-<name>.md` and satisfy its prerequisites (`bun run dev` if the app isn't up; PWA at http://localhost:6102). Run any linked prerequisite story first.
-2. Perform each step in the browser, emulated per AGENTS.md, comparing what happens against the step's expected result.
+1. Read `.agents/stories/story-<name>.md` and satisfy its prerequisites. Start command, URL, build step, and login come from the story's Prerequisites section, falling back to the project's AGENTS.md or README. Run any linked prerequisite story first.
+2. Perform each step in the browser, applying any browser emulation the project's AGENTS.md prescribes, comparing what happens against the step's expected result.
 3. Report the outcome: **passed**, or **stopped at step N** with what actually happened instead. When reality and the story disagree, offer to update the story or file an issue for the gap.
