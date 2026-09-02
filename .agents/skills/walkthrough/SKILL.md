@@ -12,6 +12,8 @@ This skill does not draft or create issues itself — every actual creation, upd
 
 Don't scan the codebase for this either, for the same reason `issue` avoids it: looking at existing implementation can anchor the spec to whatever bugs or shortcuts are already there. The one exception is a narrow, explicit check of "does X already exist" (e.g. "is there a navigation system already") when the user's description depends on knowing that — do the check, report the finding, and get back to spec'ing from intent.
 
+Exception: when the journey is an operational process (deployment, release, rollback, backup) rather than a product flow, the script or runbook *is* the user's journey. Read it up front and walk its exact commands alongside the user's narration — the gaps live in the difference between what the script does and what the user does by hand.
+
 ## Procedure
 
 ### 1. Establish the starting point
@@ -57,6 +59,8 @@ Once the journey is fully walked, sweep every issue touched during the walkthrou
 - Grep each body for leftover "Depends on" / "feeds into" / "hands off to" text and remove it now that the relationship is real.
 
 Report the final shape of the graph to the user (which issue blocks which) so they have a mental model of the build order without needing to click through GitHub.
+
+Then look for over-splitting. Walkthroughs tend to produce many small tickets; for each pair that touches the same file or would naturally ship in one PR, ask whether keeping them separate buys anything (independent testability, different owners, one blocks the other). If not, propose merging them to the user and, on approval, combine via the `issue` skill (fold the acceptance criteria into one, close the other with a comment pointing at the survivor, re-audit blockers).
 
 ### 8. Offer to improve this skill
 

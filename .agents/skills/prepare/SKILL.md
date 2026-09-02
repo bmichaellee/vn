@@ -58,3 +58,9 @@ describe("<ProgressBar />", () => {
 For generic/reusable UI components, also add a `renders without props or context` todo — generic components tend to grow dependencies they don't need, and this test guards against that.
 
 That's it — stop here. No implementation, no assertions; the point is to leave groundwork that a human signs off on before anything ships.
+
+## Variations
+
+- **Non-default base branch:** if the argument names a base (e.g. "branch off release/1.0.x"), cut from that instead of the default branch.
+- **Bug tickets on existing code:** there are usually no new units. Investigate where the behavior lives, then the scaffold is just test stubs appended to the existing test files for the units involved. Summarize the investigation findings to the user (and on the issue if it has an investigation AC).
+- **Minitest (Rails):** there is no `it.todo`. Stub with `test '...' do skip end` appended before the file's final `end`. Note any missing fixtures/env vars (e.g. `ENV` values used by the code but unset in test config) that `/red` will need.
