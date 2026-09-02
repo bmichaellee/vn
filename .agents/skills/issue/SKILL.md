@@ -57,7 +57,7 @@ User stories should be non-technical, and acceptance criteria should be determin
 
 ### 4. Ask for confirmation
 
-Post the drafted issue as a normal conversational message and explicitly ask whether the title, description, and acceptance criteria reflect the user's intent. Do **not** write anything to GitHub yet — the draft must exist only in chat until the user replies with approval. Make any necessary adjustments based on their feedback, and re-post the revised draft if it changed materially, before moving to step 5.
+Post the drafted issue as a normal conversational message and explicitly ask whether the title, description, and acceptance criteria reflect the user's intent. Do **not** write anything to GitHub yet — the draft must exist only in chat until the user replies with approval. If the reply is anything other than an unqualified "yes" — even a small addition like "one more AC" — apply the feedback, re-post the full revised draft so the change can be seen in context, and ask again. Only plain approval of the draft as posted moves to step 5.
 
 Do not use AskUserQuestion's confirm/approve-style options for this — a single-option "looks good, proceed?" prompt is rejected by the tool, and repurposing it by applying the change first and asking after the fact is not real review (a user has explicitly flagged this as unacceptable in this repo). Plain conversational back-and-forth is the right tool here; reserve AskUserQuestion for genuine multi-choice branches encountered while gathering intent (step 2), not for sign-off on a finished draft.
 
