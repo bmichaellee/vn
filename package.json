@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "prepare": "git config core.hooksPath .githooks || true && npm run --cwd apps/api build:types",
+    "postinstall": "bun run --cwd apps/api bootstrap",
     "dev": "concurrently --kill-others-on-fail \"npm run --cwd apps/api dev\" \"npm run --cwd apps/pwa dev\"",
     "check": "npm run typecheck && npm run prettier && npm run lint",
     "typecheck": "bun run --filter=@vn/api typecheck && bun run --filter=@vn/pwa typecheck",

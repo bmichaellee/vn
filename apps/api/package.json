@@ -5,11 +5,13 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "bootstrap": "bun scripts/bootstrap.ts",
     "dev": "bun --env-file=../../.env --watch src/index.ts",
     "build:types": "bunx tsc -p tsconfig.json",
     "typecheck": "bunx tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@elysiajs/cors": "^1.4.2",
     "@elysiajs/openapi": "^1.4.15",
     "drizzle-orm": "^0.45.2",

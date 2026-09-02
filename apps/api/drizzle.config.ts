@@ -3,8 +3,12 @@ import { defineConfig } from "drizzle-kit";
 
 config({ path: "../../.env" });
 
+const url = process.env.DATABASE_URL;
+
 export default defineConfig({
   dialect: "postgresql",
   schema: "./src/v0/Schema/tables/**/*.schema.ts",
-  dbCredentials: { url: process.env.DATABASE_URL ?? "" },
+  ...(url
+    ? { dbCredentials: { url } }
+    : { driver: "pglite", dbCredentials: { url: ".data/pglite" } }),
 });
