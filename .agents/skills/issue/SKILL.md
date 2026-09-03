@@ -91,33 +91,23 @@ If the issue has relationships with other issues, ensure that those relationship
 
 #### Setting up blocker relationships
 
-On GitHub, real "blocked by" relationships are not exposed as `gh issue` flags — they're set via the GraphQL API's `addBlockedBy` mutation (and removed with `removeBlockedBy`). Both take issue _node IDs_ (not issue numbers):
+On GitHub, real "blocked by" relationships are not exposed as `gh issue` flags — they're set via the GraphQL API's `addBlockedBy` mutation (and removed with `removeBlockedBy`). Both take issue _node IDs_ (not issue numbers). Do not use a standalone `jq` binary — it is not installed on every host; `gh`'s built-in `-q`/`--template` flags cover everything needed. Define these helpers once per shell call and use them for every edge:
 
 ```bash
-# Get node IDs for the issues involved
-gh issue list --json number,id -q '.[] | select(.number==23 or .number==24)'
-# For a closed/older issue not in the open list:
-gh issue view 21 --json id -q '.id'
+id(){ gh issue view "$1" --json id -q .id; }
+link(){ gh api graphql -f query='mutation($issueId:ID!,$blockingIssueId:ID!){ addBlockedBy(input:{issueId:$issueId, blockingIssueId:$blockingIssueId}) { issue { number } } }' -f issueId="$(id $1)" -f blockingIssueId="$(id $2)" -q '.data.addBlockedBy.issue.number'; }
+unlink(){ gh api graphql -f query='mutation($issueId:ID!,$blockingIssueId:ID!){ removeBlockedBy(input:{issueId:$issueId, blockingIssueId:$blockingIssueId}) { issue { number } } }' -f issueId="$(id $1)" -f blockingIssueId="$(id $2)" -q '.data.removeBlockedBy.issue.number'; }
+
+# "#24 is blocked by #23"
+link 24 23
+# undo it when a dependency turns out to be wrong or an issue gets re-split
+unlink 24 23
 ```
 
-Then, to record "issue #23 blocks issue #24" (i.e. #24 is blocked by #23):
+`id` works for closed issues too, so there is no need to search the open list. To audit an issue's current relationships (both directions, in one line per issue):
 
 ```bash
-gh api graphql -f query='mutation($issueId:ID!,$blockingIssueId:ID!){ addBlockedBy(input:{issueId:$issueId, blockingIssueId:$blockingIssueId}) { issue { number } } }' \
-  -f issueId="<node id of #24, the blocked issue>" \
-  -f blockingIssueId="<node id of #23, the blocking issue>"
-```
-
-`removeBlockedBy` takes the same two arguments and undoes the link — use it when a dependency turns out to be wrong or an issue gets re-split. To audit an issue's current relationships:
-
-```bash
-gh api graphql -f query='
-query { repository(owner:"OWNER", name:"REPO") {
-  issue(number:24) {
-    blockedBy(first:10) { nodes { number } }
-    blocking(first:10) { nodes { number } }
-  }
-} }'
+for n in 23 24; do gh api graphql -f query="query { repository(owner:\"OWNER\", name:\"REPO\") { issue(number:$n) { blockedBy(first:20){nodes{number}} blocking(first:20){nodes{number}} } } }" --template "#$n blockedBy: {{range .data.repository.issue.blockedBy.nodes}}{{.number}} {{end}}| blocking: {{range .data.repository.issue.blocking.nodes}}{{.number}} {{end}}"; echo; done
 ```
 
 A stray or incorrect edge (e.g. left over from a since-removed text mention, or from splitting/renaming an issue) is easy to miss — check both `blockedBy` and `blocking` after wiring up a batch of issues, not just the ones you just added.
