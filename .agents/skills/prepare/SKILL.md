@@ -45,17 +45,22 @@ export const ProgressBar = (
 
 ### 4. Create the test file(s), stubbed from the AC
 
-Create each test file with title-only `it.todo` tests derived from the acceptance criteria — one per mechanically testable criterion. Skip criteria a unit test can't meaningfully assert: process-only ones (e.g. sign-off requirements) and architectural constraints (e.g. "no X logic lives in the client" — proving a negative about implementation internals is a code-review concern, not a test). No callbacks or assertions yet:
+Create each test file with title-only `it.todo` tests. The acceptance criteria are the input, not the output: don't transcribe each criterion into a todo. For each criterion, ask what behavior would break if the implementation were wrong, and write a todo only where a unit test would catch that. A good todo names an observable behavior with a concrete trigger and outcome (`does not fire onClick when disabled`), not a restatement of the AC (`supports a disabled state`).
+
+Skip criteria a unit test can't meaningfully assert or that only restate the element's existence:
+- Process-only ones (e.g. sign-off requirements) and architectural constraints (e.g. "no X logic lives in the client" — proving a negative about implementation internals is a code-review concern, not a test).
+- Visual ones ("styled with Tailwind", "matches the Rails page", "renders a primary-styled button") — asserting class names tests the implementation, not the behavior. Leave these to the ticket's manual verification.
+- Smoke todos like `renders` or `renders without props` — every real test already renders the unit.
+
+Fewer, sharper todos beat a one-to-one copy of the AC. No callbacks or assertions yet:
 
 ```tsx
 import { describe, it } from "vitest";
 
 describe("<ProgressBar />", () => {
-  it.todo("uses theme-based styling");
+  it.todo("clamps values above 100 to a full bar");
 });
 ```
-
-For generic/reusable UI components, also add a `renders without props or context` todo — generic components tend to grow dependencies they don't need, and this test guards against that.
 
 That's it — stop here. No implementation, no assertions; the point is to leave groundwork that a human signs off on before anything ships.
 
